@@ -1,4 +1,4 @@
-# BarcodeScaner
+# BarcodeScan
 
 ## 通讯命令
 1. "A" PLC 准备ok
