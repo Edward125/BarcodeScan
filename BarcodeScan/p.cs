@@ -72,12 +72,56 @@ namespace BarcodeScan
             IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Scan_Stop_Bits", Scan_Stop_Bits.ToString());
             IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Scan_Parity", Scan_Parity.ToString());
             //
+            IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Open_Scan_Command", Open_Scan_Command);
+            IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Close_Scan_Command", Close_Scan_Command);
             IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Open_Add_Enter", Open_Add_Enter.ToString());
             IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Close_Add_Enter", Close_Add_Enter.ToString());
         }
 
 
+        public static void readConfigValue(string inifilepath)
+        {
 
+            //
+            PLC_Port = IniFile.IniReadValue(IniSection.PLC_COM.ToString(), "PLC_Port");
+            string _PLC_Baud_Rate = IniFile.IniReadValue(IniSection.PLC_COM.ToString(), "PLC_Baud_Rate", inifilepath);
+            if (!string.IsNullOrEmpty(_PLC_Baud_Rate))
+                PLC_Baud_Rate = _PLC_Baud_Rate;
+            string _PLC_Data_Bits = IniFile.IniReadValue(IniSection.PLC_COM.ToString(), "PLC_Data_Bits", inifilepath);
+            if (!string.IsNullOrEmpty(_PLC_Data_Bits))
+                PLC_Data_Bits = _PLC_Data_Bits;
+            string _PLC_Stop_Bits = IniFile.IniReadValue(IniSection.PLC_COM.ToString(), "PLC_Stop_Bits", inifilepath);
+            if (!string.IsNullOrEmpty(_PLC_Stop_Bits))
+                PLC_Stop_Bits = (StopBits )Enum.Parse (typeof (StopBits ), _PLC_Stop_Bits);
+            string _PLC_Parity = IniFile.IniReadValue(IniSection.PLC_COM.ToString(), "PLC_Parity", inifilepath);
+            if (!string.IsNullOrEmpty(_PLC_Parity))
+                PLC_Parity = (Parity)Enum.Parse(typeof(Parity), _PLC_Parity);
+
+            //
+            Scan_A_Port = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Scan_A_Port", inifilepath);
+            Scan_B_Port = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Scan_B_Port", inifilepath);
+            Scan_C_Port = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Scan_C_Port", inifilepath);
+            Scan_D_Port = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Scan_D_Port", inifilepath);
+
+            string _Scan_Baud_Rate = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "PLC_Baud_Rate", inifilepath);
+            if (!string.IsNullOrEmpty(_Scan_Baud_Rate))
+                PLC_Baud_Rate = _Scan_Baud_Rate;
+            string _Scan_Data_Bits = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "PLC_Data_Bits", inifilepath);
+            if (!string.IsNullOrEmpty(_Scan_Data_Bits))
+                PLC_Data_Bits = _Scan_Data_Bits;
+            string _Scan_Stop_Bits = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "PLC_Stop_Bits", inifilepath);
+            if (!string.IsNullOrEmpty(_Scan_Stop_Bits))
+                PLC_Stop_Bits = (StopBits)Enum.Parse(typeof(StopBits), _Scan_Stop_Bits);
+            string _Scan_Parity = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "PLC_Parity", inifilepath);
+            if (!string.IsNullOrEmpty(_Scan_Parity))
+                PLC_Parity = (Parity)Enum.Parse(typeof(Parity), _Scan_Parity);
+
+            //
+            Open_Scan_Command = IniFile.IniReadValue(IniSection.Bar_COM.ToString (), "Open_Scan_Command", inifilepath);
+            Close_Scan_Command = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Close_Scan_Command", inifilepath);
+            Open_Add_Enter = Convert.ToBoolean(IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Open_Add_Enter", inifilepath));
+            Close_Add_Enter  = Convert.ToBoolean(IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Close_Add_Enter", inifilepath));
+        }
    
 
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Edward;
+using System.IO;
 
 namespace BarcodeScan
 {
@@ -20,5 +21,21 @@ namespace BarcodeScan
         {
 
         }
+
+
+
+
+        #region checkFoder
+
+
+        private void checkFolder()
+        {
+            
+        }
+
+
+        #endregion
+
+
     }
 }
