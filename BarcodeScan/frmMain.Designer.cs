@@ -59,6 +59,7 @@
             this.grbTestBarocdeScanner = new System.Windows.Forms.GroupBox();
             this.btnOpen = new System.Windows.Forms.Button();
             this.comboBar = new System.Windows.Forms.ComboBox();
+            this.btnSet = new System.Windows.Forms.Button();
             this.grbmessage.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -310,6 +311,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnSet);
             this.groupBox4.Controls.Add(this.btnStop);
             this.groupBox4.Controls.Add(this.btnRun);
             this.groupBox4.Location = new System.Drawing.Point(623, 15);
@@ -322,16 +324,16 @@
             // 
             this.btnRun.Location = new System.Drawing.Point(6, 21);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(83, 30);
+            this.btnRun.Size = new System.Drawing.Size(67, 30);
             this.btnRun.TabIndex = 0;
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = true;
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(95, 21);
+            this.btnStop.Location = new System.Drawing.Point(77, 21);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(78, 30);
+            this.btnStop.Size = new System.Drawing.Size(53, 30);
             this.btnStop.TabIndex = 1;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -369,6 +371,15 @@
             this.comboBar.Name = "comboBar";
             this.comboBar.Size = new System.Drawing.Size(64, 22);
             this.comboBar.TabIndex = 10;
+            // 
+            // btnSet
+            // 
+            this.btnSet.Location = new System.Drawing.Point(133, 21);
+            this.btnSet.Name = "btnSet";
+            this.btnSet.Size = new System.Drawing.Size(53, 30);
+            this.btnSet.TabIndex = 2;
+            this.btnSet.Text = "Set...";
+            this.btnSet.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -432,6 +443,7 @@
         private System.Windows.Forms.GroupBox grbTestBarocdeScanner;
         private System.Windows.Forms.ComboBox comboBar;
         private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.Button btnSet;
     }
 }
 
