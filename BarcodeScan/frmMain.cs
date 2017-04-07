@@ -28,7 +28,7 @@ namespace BarcodeScan
                 p.readConfigValue(p.IniFilePath);
             }
 
-
+            loadUI();
 
         }
 
@@ -115,6 +115,8 @@ namespace BarcodeScan
             loadConfigUI();
 
             //
+            this.Text = this.ProductName + ", Ver:" + Application.ProductVersion + ", Author:edward_song@yeah.net";
+            //
             this.lstMessage.Items.Clear();
             this.lstBar.Items.Clear();
             //
@@ -132,6 +134,32 @@ namespace BarcodeScan
         }
 
         #endregion
+
+
+        #region 更新信息
+        /// <summary>
+        /// 更新信息到listbox中
+        /// </summary>
+        /// <param name="listbox">listbox name</param>
+        /// <param name="message">message</param>
+        public static void updateMessage(ListBox listbox, string message)
+        {
+            if (listbox.Items.Count > 1000)
+                listbox.Items.RemoveAt(0);
+
+            string item = string.Empty;
+            item = DateTime.Now.ToString("HH:mm:ss") + " " + @message;
+            listbox.Items.Add(item);
+            if (listbox.Items.Count > 1)
+            {
+                listbox.TopIndex = listbox.Items.Count - 1;
+                listbox.SetSelected(listbox.Items.Count - 1, true);
+            }
+        }
+        #endregion
+
+
+
 
         private void btnSet_Click(object sender, EventArgs e)
         {

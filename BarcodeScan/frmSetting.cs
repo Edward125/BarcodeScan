@@ -14,5 +14,10 @@ namespace BarcodeScan
         {
             InitializeComponent();
         }
+
+        private void frmSetting_Load(object sender, EventArgs e)
+        {
+            this.Text = "Setting... <" + Application.ProductName + "Ver:" + Application.ProductVersion + ">";
+        }
     }
 }
