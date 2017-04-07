@@ -41,7 +41,7 @@ namespace BarcodeScan
 
 
 
-       public enum IniSection
+       public  enum IniSection
         {
             SysConfig,
             PLC_COM,

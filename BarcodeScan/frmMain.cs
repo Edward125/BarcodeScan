@@ -164,7 +164,13 @@ namespace BarcodeScan
         private void btnSet_Click(object sender, EventArgs e)
         {
             frmSetting f = new frmSetting();
-            f.ShowDialog();
+            //f.ShowDialog();
+
+            if (f.ShowDialog(this) != DialogResult.OK) //setting form closed
+            {
+                loadConfigUI();
+            }
+  
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
