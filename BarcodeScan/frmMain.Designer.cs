@@ -28,38 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.grbmessage = new System.Windows.Forms.GroupBox();
             this.lstMessage = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.brnRefresh = new System.Windows.Forms.Button();
+            this.comboBarD = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBarB = new System.Windows.Forms.ComboBox();
-            this.combBarA = new System.Windows.Forms.ComboBox();
+            this.comboBarA = new System.Windows.Forms.ComboBox();
             this.comboBarC = new System.Windows.Forms.ComboBox();
-            this.combPLC = new System.Windows.Forms.ComboBox();
+            this.comboPLC = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtBarD = new System.Windows.Forms.TextBox();
+            this.txtBarC = new System.Windows.Forms.TextBox();
+            this.txtBarB = new System.Windows.Forms.TextBox();
+            this.txtBarA = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lstBar = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.comboBarD = new System.Windows.Forms.ComboBox();
-            this.brnRefresh = new System.Windows.Forms.Button();
-            this.txtBarA = new System.Windows.Forms.TextBox();
-            this.txtBarB = new System.Windows.Forms.TextBox();
-            this.txtBarC = new System.Windows.Forms.TextBox();
-            this.txtBarD = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnRun = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.grbTestBarocdeScanner = new System.Windows.Forms.GroupBox();
-            this.btnOpen = new System.Windows.Forms.Button();
-            this.comboBar = new System.Windows.Forms.ComboBox();
             this.btnSet = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnRun = new System.Windows.Forms.Button();
+            this.grbTestBarocdeScanner = new System.Windows.Forms.GroupBox();
+            this.comboBar = new System.Windows.Forms.ComboBox();
+            this.btnOpen = new System.Windows.Forms.Button();
+            this.spPLC = new System.IO.Ports.SerialPort(this.components);
+            this.spBar_A = new System.IO.Ports.SerialPort(this.components);
+            this.spBar_B = new System.IO.Ports.SerialPort(this.components);
+            this.spBar_C = new System.IO.Ports.SerialPort(this.components);
+            this.spBar_D = new System.IO.Ports.SerialPort(this.components);
             this.grbmessage.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -97,15 +103,59 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.comboBarB);
-            this.groupBox1.Controls.Add(this.combBarA);
+            this.groupBox1.Controls.Add(this.comboBarA);
             this.groupBox1.Controls.Add(this.comboBarC);
-            this.groupBox1.Controls.Add(this.combPLC);
+            this.groupBox1.Controls.Add(this.comboPLC);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(240, 130);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SerialPortSetting";
+            // 
+            // brnRefresh
+            // 
+            this.brnRefresh.Location = new System.Drawing.Point(126, 94);
+            this.brnRefresh.Name = "brnRefresh";
+            this.brnRefresh.Size = new System.Drawing.Size(101, 28);
+            this.brnRefresh.TabIndex = 3;
+            this.brnRefresh.Text = "Refresh";
+            this.brnRefresh.UseVisualStyleBackColor = true;
+            // 
+            // comboBarD
+            // 
+            this.comboBarD.FormattingEnabled = true;
+            this.comboBarD.Location = new System.Drawing.Point(163, 65);
+            this.comboBarD.Name = "comboBarD";
+            this.comboBarD.Size = new System.Drawing.Size(64, 22);
+            this.comboBarD.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(123, 68);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(39, 14);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Bar_D";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 103);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(38, 14);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Bar_B";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(123, 37);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(37, 14);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Bar_C";
             // 
             // label2
             // 
@@ -133,13 +183,13 @@
             this.comboBarB.Size = new System.Drawing.Size(64, 22);
             this.comboBarB.TabIndex = 3;
             // 
-            // combBarA
+            // comboBarA
             // 
-            this.combBarA.FormattingEnabled = true;
-            this.combBarA.Location = new System.Drawing.Point(50, 65);
-            this.combBarA.Name = "combBarA";
-            this.combBarA.Size = new System.Drawing.Size(64, 22);
-            this.combBarA.TabIndex = 2;
+            this.comboBarA.FormattingEnabled = true;
+            this.comboBarA.Location = new System.Drawing.Point(50, 65);
+            this.comboBarA.Name = "comboBarA";
+            this.comboBarA.Size = new System.Drawing.Size(64, 22);
+            this.comboBarA.TabIndex = 2;
             // 
             // comboBarC
             // 
@@ -149,13 +199,13 @@
             this.comboBarC.Size = new System.Drawing.Size(64, 22);
             this.comboBarC.TabIndex = 1;
             // 
-            // combPLC
+            // comboPLC
             // 
-            this.combPLC.FormattingEnabled = true;
-            this.combPLC.Location = new System.Drawing.Point(50, 32);
-            this.combPLC.Name = "combPLC";
-            this.combPLC.Size = new System.Drawing.Size(64, 22);
-            this.combPLC.TabIndex = 0;
+            this.comboPLC.FormattingEnabled = true;
+            this.comboPLC.Location = new System.Drawing.Point(50, 32);
+            this.comboPLC.Name = "comboPLC";
+            this.comboPLC.Size = new System.Drawing.Size(64, 22);
+            this.comboPLC.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -173,6 +223,78 @@
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CurrentBarcode";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 103);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(39, 14);
+            this.label9.TabIndex = 12;
+            this.label9.Text = "Bar_D";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 77);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(37, 14);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Bar_C";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 49);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(38, 14);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Bar_B";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 22);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 14);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Bar_A:";
+            // 
+            // txtBarD
+            // 
+            this.txtBarD.Location = new System.Drawing.Point(52, 100);
+            this.txtBarD.Name = "txtBarD";
+            this.txtBarD.ReadOnly = true;
+            this.txtBarD.Size = new System.Drawing.Size(298, 22);
+            this.txtBarD.TabIndex = 3;
+            this.txtBarD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBarC
+            // 
+            this.txtBarC.Location = new System.Drawing.Point(52, 74);
+            this.txtBarC.Name = "txtBarC";
+            this.txtBarC.ReadOnly = true;
+            this.txtBarC.Size = new System.Drawing.Size(298, 22);
+            this.txtBarC.TabIndex = 2;
+            this.txtBarC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBarB
+            // 
+            this.txtBarB.Location = new System.Drawing.Point(52, 46);
+            this.txtBarB.Name = "txtBarB";
+            this.txtBarB.ReadOnly = true;
+            this.txtBarB.Size = new System.Drawing.Size(298, 22);
+            this.txtBarB.TabIndex = 1;
+            this.txtBarB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtBarA
+            // 
+            this.txtBarA.Location = new System.Drawing.Point(52, 19);
+            this.txtBarA.Name = "txtBarA";
+            this.txtBarA.ReadOnly = true;
+            this.txtBarA.Size = new System.Drawing.Size(298, 22);
+            this.txtBarA.TabIndex = 0;
+            this.txtBarA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // groupBox3
             // 
@@ -193,122 +315,6 @@
             this.lstBar.Size = new System.Drawing.Size(368, 410);
             this.lstBar.TabIndex = 0;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(123, 37);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(37, 14);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Bar_C";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 103);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 14);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Bar_B";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(123, 68);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(39, 14);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Bar_D";
-            // 
-            // comboBarD
-            // 
-            this.comboBarD.FormattingEnabled = true;
-            this.comboBarD.Location = new System.Drawing.Point(163, 65);
-            this.comboBarD.Name = "comboBarD";
-            this.comboBarD.Size = new System.Drawing.Size(64, 22);
-            this.comboBarD.TabIndex = 9;
-            // 
-            // brnRefresh
-            // 
-            this.brnRefresh.Location = new System.Drawing.Point(126, 94);
-            this.brnRefresh.Name = "brnRefresh";
-            this.brnRefresh.Size = new System.Drawing.Size(101, 28);
-            this.brnRefresh.TabIndex = 3;
-            this.brnRefresh.Text = "Refresh";
-            this.brnRefresh.UseVisualStyleBackColor = true;
-            // 
-            // txtBarA
-            // 
-            this.txtBarA.Location = new System.Drawing.Point(52, 19);
-            this.txtBarA.Name = "txtBarA";
-            this.txtBarA.ReadOnly = true;
-            this.txtBarA.Size = new System.Drawing.Size(298, 22);
-            this.txtBarA.TabIndex = 0;
-            this.txtBarA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtBarB
-            // 
-            this.txtBarB.Location = new System.Drawing.Point(52, 46);
-            this.txtBarB.Name = "txtBarB";
-            this.txtBarB.ReadOnly = true;
-            this.txtBarB.Size = new System.Drawing.Size(298, 22);
-            this.txtBarB.TabIndex = 1;
-            this.txtBarB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtBarC
-            // 
-            this.txtBarC.Location = new System.Drawing.Point(52, 74);
-            this.txtBarC.Name = "txtBarC";
-            this.txtBarC.ReadOnly = true;
-            this.txtBarC.Size = new System.Drawing.Size(298, 22);
-            this.txtBarC.TabIndex = 2;
-            this.txtBarC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtBarD
-            // 
-            this.txtBarD.Location = new System.Drawing.Point(52, 100);
-            this.txtBarD.Name = "txtBarD";
-            this.txtBarD.ReadOnly = true;
-            this.txtBarD.Size = new System.Drawing.Size(298, 22);
-            this.txtBarD.TabIndex = 3;
-            this.txtBarD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 22);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(41, 14);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Bar_A:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 49);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(38, 14);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Bar_B";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 77);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(37, 14);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "Bar_C";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 103);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(39, 14);
-            this.label9.TabIndex = 12;
-            this.label9.Text = "Bar_D";
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.btnSet);
@@ -320,14 +326,15 @@
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             // 
-            // btnRun
+            // btnSet
             // 
-            this.btnRun.Location = new System.Drawing.Point(6, 21);
-            this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(67, 30);
-            this.btnRun.TabIndex = 0;
-            this.btnRun.Text = "Run";
-            this.btnRun.UseVisualStyleBackColor = true;
+            this.btnSet.Location = new System.Drawing.Point(133, 21);
+            this.btnSet.Name = "btnSet";
+            this.btnSet.Size = new System.Drawing.Size(53, 30);
+            this.btnSet.TabIndex = 2;
+            this.btnSet.Text = "Set...";
+            this.btnSet.UseVisualStyleBackColor = true;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
             // 
             // btnStop
             // 
@@ -337,6 +344,15 @@
             this.btnStop.TabIndex = 1;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
+            // 
+            // btnRun
+            // 
+            this.btnRun.Location = new System.Drawing.Point(6, 21);
+            this.btnRun.Name = "btnRun";
+            this.btnRun.Size = new System.Drawing.Size(67, 30);
+            this.btnRun.TabIndex = 0;
+            this.btnRun.Text = "Run";
+            this.btnRun.UseVisualStyleBackColor = true;
             // 
             // grbTestBarocdeScanner
             // 
@@ -348,15 +364,6 @@
             this.grbTestBarocdeScanner.TabIndex = 4;
             this.grbTestBarocdeScanner.TabStop = false;
             this.grbTestBarocdeScanner.Text = "Test Barcode Scanner";
-            // 
-            // btnOpen
-            // 
-            this.btnOpen.Location = new System.Drawing.Point(6, 21);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(67, 26);
-            this.btnOpen.TabIndex = 0;
-            this.btnOpen.Text = "Open";
-            this.btnOpen.UseVisualStyleBackColor = true;
             // 
             // comboBar
             // 
@@ -372,14 +379,15 @@
             this.comboBar.Size = new System.Drawing.Size(64, 22);
             this.comboBar.TabIndex = 10;
             // 
-            // btnSet
+            // btnOpen
             // 
-            this.btnSet.Location = new System.Drawing.Point(133, 21);
-            this.btnSet.Name = "btnSet";
-            this.btnSet.Size = new System.Drawing.Size(53, 30);
-            this.btnSet.TabIndex = 2;
-            this.btnSet.Text = "Set...";
-            this.btnSet.UseVisualStyleBackColor = true;
+            this.btnOpen.Location = new System.Drawing.Point(6, 21);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(67, 26);
+            this.btnOpen.TabIndex = 0;
+            this.btnOpen.Text = "Open";
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // frmMain
             // 
@@ -418,9 +426,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBarB;
-        private System.Windows.Forms.ComboBox combBarA;
+        private System.Windows.Forms.ComboBox comboBarA;
         private System.Windows.Forms.ComboBox comboBarC;
-        private System.Windows.Forms.ComboBox combPLC;
+        private System.Windows.Forms.ComboBox comboPLC;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox comboBarD;
         private System.Windows.Forms.Label label5;
@@ -444,6 +452,11 @@
         private System.Windows.Forms.ComboBox comboBar;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.Button btnSet;
+        private System.IO.Ports.SerialPort spPLC;
+        private System.IO.Ports.SerialPort spBar_A;
+        private System.IO.Ports.SerialPort spBar_B;
+        private System.IO.Ports.SerialPort spBar_C;
+        private System.IO.Ports.SerialPort spBar_D;
     }
 }
 
