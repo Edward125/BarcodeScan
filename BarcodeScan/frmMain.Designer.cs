@@ -121,6 +121,7 @@
             this.brnRefresh.TabIndex = 3;
             this.brnRefresh.Text = "Refresh";
             this.brnRefresh.UseVisualStyleBackColor = true;
+            this.brnRefresh.Click += new System.EventHandler(this.brnRefresh_Click);
             // 
             // comboBarD
             // 
