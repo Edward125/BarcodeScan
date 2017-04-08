@@ -224,6 +224,45 @@ namespace BarcodeScan
 
         }
 
+        private void btnRun_Click(object sender, EventArgs e)
+        {
+
+
+            //check config value before start
+            if (!checkSerialPortEmpty(p.PLC_Port, "PLC Portname can't be empty,pls set it...", this.comboPLC))
+                return;
+
+           if (!checkSerialPortEmpty(p.Scan_A_Port, "Scanner A Portname can't be empty,pls set it...", this.comboBarA))
+               return;
+
+
+
+
+
+        }
+
+
+        /// <summary>
+        /// 检查串口的值是否为空,为空返回false，不为空返回true
+        /// </summary>
+        /// <param name="portvalue">串口的值参数</param>
+        /// <param name="errmeesage">为空时的报错信息</param>
+        /// <param name="comboport">选择串口值的combolist</param>
+        /// <returns>empyt,return false,not empty,retun true</returns>
+        private bool checkSerialPortEmpty(string portvalue, string errmeesage,ComboBox comboport)
+        {
+            if (string.IsNullOrEmpty(portvalue))
+            {
+                updateMessage(lstMessage, errmeesage);
+                saveLog(p.LogType.SysLog, errmeesage);
+                comboport.Focus();
+                return false;
+            }
+            else
+                return true;
+
+        }
+
 
         
 
