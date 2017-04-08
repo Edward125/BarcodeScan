@@ -160,6 +160,52 @@ namespace BarcodeScan
 
 
 
+        #region savelog
+
+        /// <summary>
+        /// 保存log
+        /// </summary>
+        /// <param name="logtype">log類型</param>
+        /// <param name="logcontents">log內容</param>
+        public static void saveLog(p.LogType log, string logcontents)
+        {
+            //根据logtype获取对应的文件路徑以及文件名
+            string logpath = string.Empty;
+
+
+            if (log == p.LogType.SysLog)
+                logpath = p.SysLogFile;
+            if (log == p.LogType.SNLog)
+                logpath = p.SNLogFile;
+            if (log == p.LogType.SN)
+                logpath = p.SNFile;
+
+
+            //判斷文件是否存在，不存在就创建文件，存在就写入文件
+            if (!File.Exists(@logpath))
+            {
+                FileStream fs = File.Create(@logpath);
+                fs.Close();
+            }
+            else
+            {
+                try
+                {
+                    File.AppendAllText(@logpath, DateTime.Now.ToString("yyyyMMddHHmmss") + " " + @logcontents + "\r\n");
+                }
+                catch (Exception)
+                {
+                    //wait
+
+                }
+            }
+
+        }
+
+        #endregion
+
+
+
 
         private void btnSet_Click(object sender, EventArgs e)
         {
@@ -177,6 +223,11 @@ namespace BarcodeScan
         {
 
         }
+
+
+        
+
+
 
 
     }

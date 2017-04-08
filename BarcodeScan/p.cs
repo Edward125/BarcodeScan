@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms ;
 using System.IO.Ports;
 using Edward;
+using System.IO;
 
 namespace BarcodeScan
 {
@@ -47,6 +48,16 @@ namespace BarcodeScan
             PLC_COM,
             Bar_COM,
         }
+
+
+
+       public enum LogType
+       {
+           SysLog,
+           SNLog,
+           SN
+       }
+
 
 
         /// <summary>
@@ -123,7 +134,7 @@ namespace BarcodeScan
             Open_Add_Enter = Convert.ToBoolean(IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Open_Add_Enter", inifilepath));
             Close_Add_Enter  = Convert.ToBoolean(IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Close_Add_Enter", inifilepath));
         }
-   
+
 
 
     }
