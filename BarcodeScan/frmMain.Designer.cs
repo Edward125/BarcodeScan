@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.grbmessage = new System.Windows.Forms.GroupBox();
             this.lstMessage = new System.Windows.Forms.ListBox();
             this.grbSerialPortSetting = new System.Windows.Forms.GroupBox();
@@ -80,7 +81,7 @@
             this.grbmessage.Controls.Add(this.lstMessage);
             this.grbmessage.Location = new System.Drawing.Point(12, 148);
             this.grbmessage.Name = "grbmessage";
-            this.grbmessage.Size = new System.Drawing.Size(482, 439);
+            this.grbmessage.Size = new System.Drawing.Size(514, 439);
             this.grbmessage.TabIndex = 0;
             this.grbmessage.TabStop = false;
             this.grbmessage.Text = "CommandList";
@@ -92,7 +93,7 @@
             this.lstMessage.ItemHeight = 14;
             this.lstMessage.Location = new System.Drawing.Point(6, 21);
             this.lstMessage.Name = "lstMessage";
-            this.lstMessage.Size = new System.Drawing.Size(470, 410);
+            this.lstMessage.Size = new System.Drawing.Size(502, 410);
             this.lstMessage.TabIndex = 0;
             // 
             // grbSerialPortSetting
@@ -307,9 +308,9 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.lstBar);
-            this.groupBox3.Location = new System.Drawing.Point(500, 147);
+            this.groupBox3.Location = new System.Drawing.Point(532, 147);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(321, 439);
+            this.groupBox3.Size = new System.Drawing.Size(289, 439);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "BarcodeList";
@@ -321,7 +322,7 @@
             this.lstBar.ItemHeight = 14;
             this.lstBar.Location = new System.Drawing.Point(6, 21);
             this.lstBar.Name = "lstBar";
-            this.lstBar.Size = new System.Drawing.Size(306, 410);
+            this.lstBar.Size = new System.Drawing.Size(276, 410);
             this.lstBar.TabIndex = 0;
             // 
             // grbFunctionBtn
@@ -438,6 +439,7 @@
             this.Controls.Add(this.grbmessage);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.Text = "Form1";
