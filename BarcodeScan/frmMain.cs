@@ -213,45 +213,7 @@ namespace BarcodeScan
             if (log == p.LogType.SNLog)
                 logpath = p.SNLogFile;
             if (log == p.LogType.SN)
-            {
                 logpath = p.SNFile;
-                //判斷文件是否存在，不存在就创建文件，存在就写入文件
-
-                if (File.Exists (@logpath ))
-                {
-
-                    try
-                    {
-                        File.Delete(@logpath);
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-
-                }
-
-                if (!File.Exists(@logpath))
-                {
-                    FileStream fs = File.Create(@logpath);
-                    fs.Close();
-                    try
-                    {
-                        File.AppendAllText(@logpath, @logcontents + "\r\n");
-                    }
-                    catch (Exception)
-                    {
-                        //wait
-
-                    }
-
-
-                }
-               
-
-
-
-            }
 
             //判斷文件是否存在，不存在就创建文件，存在就写入文件
             if (!File.Exists(@logpath))
@@ -259,18 +221,26 @@ namespace BarcodeScan
                 FileStream fs = File.Create(@logpath);
                 fs.Close();
             }
-            else
+            try
             {
-                try
-                {
-                    File.AppendAllText(@logpath, DateTime.Now.ToString("yyyyMMddHHmmss") + " " + @logcontents + "\r\n");
-                }
-                catch (Exception)
-                {
-                    //wait
 
-                }
+                if (log == p.LogType.SN)
+                    File.AppendAllText(@logpath, @logcontents + "\r\n");
+                else
+                    File.AppendAllText(@logpath, DateTime.Now.ToString("yyyyMMddHHmmss") + " " + @logcontents + "\r\n");
             }
+            catch (Exception)
+            {
+                //wait
+
+            }
+
+
+               
+
+
+
+
 
         }
 
@@ -594,7 +564,7 @@ namespace BarcodeScan
                     sp.PortName = portname;
                     sp.Open();
                     updateMessage(lstMessage , "Open SerialPort=" + portname + " success.");//Message:" + e.Message);
-                    saveLog(p.LogType.SysLog , "Open SerialPort=" + portname + " success.\r\n");//Message:" + e.Message + "\r\n");
+                    saveLog(p.LogType.SysLog , "Open SerialPort=" + portname + " success.");//Message:" + e.Message + "\r\n");
                 }
                 catch (Exception e)
                 {
@@ -1025,6 +995,20 @@ namespace BarcodeScan
             {
 
                 updateMessage(lstMessage, "4 barcodes are complete,save them to " + p.SNFile);
+
+                if (File.Exists(p.SNFile))
+                {
+                    try
+                    {
+                        File.Delete(p.SNFile);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                }
+
+
                 saveLog(p.LogType.SN, p.BarA);
                 saveLog(p.LogType.SN, p.BarB);
                 saveLog(p.LogType.SN, p.BarC);
