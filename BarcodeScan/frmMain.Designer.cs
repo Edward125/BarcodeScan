@@ -87,6 +87,7 @@
             // lstMessage
             // 
             this.lstMessage.FormattingEnabled = true;
+            this.lstMessage.HorizontalScrollbar = true;
             this.lstMessage.ItemHeight = 14;
             this.lstMessage.Location = new System.Drawing.Point(6, 21);
             this.lstMessage.Name = "lstMessage";
@@ -130,6 +131,7 @@
             this.comboBarD.Name = "comboBarD";
             this.comboBarD.Size = new System.Drawing.Size(64, 22);
             this.comboBarD.TabIndex = 9;
+            this.comboBarD.SelectedIndexChanged += new System.EventHandler(this.comboBarD_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -183,6 +185,7 @@
             this.comboBarB.Name = "comboBarB";
             this.comboBarB.Size = new System.Drawing.Size(64, 22);
             this.comboBarB.TabIndex = 3;
+            this.comboBarB.SelectedIndexChanged += new System.EventHandler(this.comboBarB_SelectedIndexChanged);
             // 
             // comboBarA
             // 
@@ -191,6 +194,7 @@
             this.comboBarA.Name = "comboBarA";
             this.comboBarA.Size = new System.Drawing.Size(64, 22);
             this.comboBarA.TabIndex = 2;
+            this.comboBarA.SelectedIndexChanged += new System.EventHandler(this.comboBarA_SelectedIndexChanged);
             // 
             // comboBarC
             // 
@@ -199,6 +203,7 @@
             this.comboBarC.Name = "comboBarC";
             this.comboBarC.Size = new System.Drawing.Size(64, 22);
             this.comboBarC.TabIndex = 1;
+            this.comboBarC.SelectedIndexChanged += new System.EventHandler(this.comboBarC_SelectedIndexChanged);
             // 
             // comboPLC
             // 
@@ -207,6 +212,7 @@
             this.comboPLC.Name = "comboPLC";
             this.comboPLC.Size = new System.Drawing.Size(64, 22);
             this.comboPLC.TabIndex = 0;
+            this.comboPLC.SelectedIndexChanged += new System.EventHandler(this.comboPLC_SelectedIndexChanged);
             // 
             // groupBox2
             // 
@@ -310,6 +316,7 @@
             // lstBar
             // 
             this.lstBar.FormattingEnabled = true;
+            this.lstBar.HorizontalScrollbar = true;
             this.lstBar.ItemHeight = 14;
             this.lstBar.Location = new System.Drawing.Point(6, 21);
             this.lstBar.Name = "lstBar";
@@ -345,6 +352,7 @@
             this.btnStop.TabIndex = 1;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // btnRun
             // 
@@ -390,6 +398,10 @@
             this.btnOpen.Text = "Open";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // spPLC
+            // 
+            this.spPLC.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spPLC_DataReceived);
             // 
             // frmMain
             // 

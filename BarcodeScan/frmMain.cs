@@ -134,15 +134,15 @@ namespace BarcodeScan
             //
             this.comboBar.SelectedIndex = 0;
             //
-            if (string.IsNullOrEmpty(p.PLC_Port))
+          //  if (string.IsNullOrEmpty(p.PLC_Port))
                 getSerialPort(comboPLC, p.PLC_Port);
-            if (string.IsNullOrEmpty(p.Scan_A_Port))
+           // if (string.IsNullOrEmpty(p.Scan_A_Port))
                 getSerialPort(comboBarA, p.Scan_A_Port);
-            if (string.IsNullOrEmpty(p.Scan_B_Port))
+           // if (string.IsNullOrEmpty(p.Scan_B_Port))
                 getSerialPort(comboBarB, p.Scan_B_Port);
-            if (string.IsNullOrEmpty(p.Scan_C_Port))
+          //  if (string.IsNullOrEmpty(p.Scan_C_Port))
                 getSerialPort(comboBarC, p.Scan_C_Port);
-            if (string.IsNullOrEmpty(p.Scan_D_Port))
+           // if (string.IsNullOrEmpty(p.Scan_D_Port))
                 getSerialPort(comboBarD, p.Scan_D_Port);
 
         }
@@ -169,6 +169,20 @@ namespace BarcodeScan
                 listbox.TopIndex = listbox.Items.Count - 1;
                 listbox.SetSelected(listbox.Items.Count - 1, true);
             }
+
+
+            // Display a horizontal scroll bar.
+            listbox.HorizontalScrollbar = true;
+
+            // Create a Graphics object to use when determining the size of the largest item in the ListBox.
+            Graphics g = listbox.CreateGraphics();
+
+            // Determine the size for HorizontalExtent using the MeasureString method using the last item in the list.
+            int hzSize = (int)g.MeasureString(listbox.Items[listbox.Items.Count - 1].ToString(), listbox.Font).Width;
+            // Set the HorizontalExtent property.
+            listbox.HorizontalExtent = hzSize;
+
+
         }
         #endregion
 
@@ -240,7 +254,7 @@ namespace BarcodeScan
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-
+            updateMessage (lstMessage,"fhasdfhasdhfsdakjfhsdakjhfksdajhfksdjhfsdkjfhsadkjfhdsakjfhsdakjfhsdakjfhsdakjfhsdakjfhdjksahfjashfjashf");
 
             //check config value before start
             if (!checkSerialPortEmpty(p.PLC_Port, "PLC Portname can't be empty,pls set it...", this.comboPLC))
@@ -254,9 +268,16 @@ namespace BarcodeScan
             if (!checkSerialPortEmpty(p.Scan_D_Port, "Scanner D Portname can't be empty,pls set it...", this.comboBarD))
                 return;
 
-            
+            if (!openSerialPort(spPLC, p.PLC_Port))
+                return;
 
 
+
+            //
+            this.btnRun.Enabled = false;
+            this.btnStop.Enabled = true;
+            this.btnSet.Enabled = false;
+            grbTestBarocdeScanner.Enabled = false;
 
 
 
@@ -376,6 +397,8 @@ namespace BarcodeScan
                 try
                 {
                     sp.Close();
+                    updateMessage(lstMessage, "Close SerialPort=" + sp.PortName.ToString() + " success...");
+                    saveLog(p.LogType.SysLog , "Close SerialPort=" + sp.PortName.ToString() + " success...");
                 }
                 catch (Exception e)
                 {
@@ -521,6 +544,78 @@ namespace BarcodeScan
             getSerialPort(comboBarB, p.Scan_B_Port);
             getSerialPort(comboBarC, p.Scan_C_Port);
             getSerialPort(comboBarD, p.Scan_D_Port);
+        }
+
+        private void comboPLC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            p.PLC_Port = comboPLC.SelectedItem.ToString();
+            IniFile.IniWriteValue(p.IniSection.PLC_COM.ToString(), "PLC_Port",p.PLC_Port, p.IniFilePath);
+        }
+
+        private void comboBarA_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            p.Scan_A_Port = comboBarA.SelectedItem.ToString();
+            IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Scan_A_Port", p.Scan_A_Port, p.IniFilePath);
+        }
+
+        private void comboBarB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            p.Scan_B_Port = comboBarB.SelectedItem.ToString();
+            IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Scan_B_Port", p.Scan_B_Port, p.IniFilePath);
+        }
+
+        private void comboBarC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            p.Scan_C_Port = comboBarC.SelectedItem.ToString();
+            IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Scan_C_Port", p.Scan_C_Port, p.IniFilePath);
+        }
+
+        private void comboBarD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            p.Scan_D_Port = comboBarD.SelectedItem.ToString();
+            IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Scan_D_Port", p.Scan_D_Port, p.IniFilePath);
+        }
+
+        private void spPLC_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (spPLC.BytesToRead == 0)
+                return;
+
+            string sReceive = spPLC.ReadExisting();
+            spPLC.DiscardInBuffer();
+            sReceive = sReceive.Trim();
+            this.Invoke((EventHandler)(delegate
+            {
+                updateMessage(lstMessage, "PLC->PC:" + sReceive);
+                saveLog(p.LogType.SysLog, "PLC->PC:" + sReceive);
+                if (sReceive == "A")
+                {
+                    updateMessage(lstMessage, "PLC ready OK,start to open sanner to read barcode...");
+                    saveLog (p.LogType.SysLog ,"PLC ready OK,start to open sanner to read barcode...");
+                    txtBarA.Text = string.Empty;
+                    txtBarB.Text = string.Empty;
+                    txtBarC.Text = string.Empty;
+                    txtBarD.Text = string.Empty;
+                    p.BarA = string.Empty;
+                    p.BarB = string.Empty;
+                    p.BarC = string.Empty;
+                    p.BarD = string.Empty;
+
+                }
+
+
+            }));
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+
+            closeSerialPort(spPLC);
+            //
+            this.btnRun.Enabled = true;
+            this.btnStop.Enabled = false;
+            this.btnSet.Enabled = true;
+            grbTestBarocdeScanner.Enabled = true;
         }
 
 

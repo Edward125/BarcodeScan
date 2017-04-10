@@ -39,6 +39,11 @@ namespace BarcodeScan
         public static string Close_Scan_Command = string.Empty;
         public static bool Open_Add_Enter = true;
         public static bool Close_Add_Enter = true;
+        //
+        public static string BarA = string.Empty;
+        public static string BarB = string.Empty;
+        public static string BarC = string.Empty;
+        public static string BarD = string.Empty;
 
 
 
