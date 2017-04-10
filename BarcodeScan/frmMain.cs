@@ -850,8 +850,8 @@ namespace BarcodeScan
             {
                 updateMessage(lstMessage, "BarA->PC:" + sReceive);
                 saveLog(p.LogType.SysLog, "BarA->PC:" + sReceive);
-                updateMessage(lstMessage, "Read BarA:" + sReceive);
-                saveLog(p.LogType.SysLog, "Read BarA:" + sReceive);
+                updateMessage(lstMessage, "BarA:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarA:" + sReceive);
                 updateMessage(lstBar, "BarA:" + sReceive);
                 p.BarA = sReceive .Trim ().ToUpper ();
                 txtBarA.Text = p.BarA;
@@ -887,8 +887,8 @@ namespace BarcodeScan
             {
                 updateMessage(lstMessage, "BarB->PC:" + sReceive);
                 saveLog(p.LogType.SysLog, "BarB->PC:" + sReceive);
-                updateMessage(lstMessage, "Read BarB:" + sReceive);
-                saveLog(p.LogType.SysLog, "Read BarB:" + sReceive);
+                updateMessage(lstMessage, "BarB:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarB:" + sReceive);
                 updateMessage(lstBar, "BarB:" + sReceive);
                 p.BarB = sReceive.Trim().ToUpper();
                 txtBarB.Text = p.BarB;
@@ -923,8 +923,8 @@ namespace BarcodeScan
             {
                 updateMessage(lstMessage, "BarC->PC:" + sReceive);
                 saveLog(p.LogType.SysLog, "BarC->PC:" + sReceive);
-                updateMessage(lstMessage, "Read BarC:" + sReceive);
-                saveLog(p.LogType.SysLog, "Read BarC:" + sReceive);
+                updateMessage(lstMessage, "BarC:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarC:" + sReceive);
                 updateMessage(lstBar, "BarC:" + sReceive);
                 p.BarC = sReceive.Trim().ToUpper();
                 txtBarC.Text = p.BarC;
@@ -959,8 +959,8 @@ namespace BarcodeScan
             {
                 updateMessage(lstMessage, "BarD->PC:" + sReceive);
                 saveLog(p.LogType.SysLog, "BarD->PC:" + sReceive);
-                updateMessage(lstMessage, "Read BarD:" + sReceive);
-                saveLog(p.LogType.SysLog, "Read BarD:" + sReceive);
+                updateMessage(lstMessage, "BarD:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarD:" + sReceive);
                 updateMessage(lstBar, "BarD:" + sReceive);
                 p.BarD = sReceive.Trim().ToUpper();
                 txtBarD.Text = p.BarD;
