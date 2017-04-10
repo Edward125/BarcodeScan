@@ -131,7 +131,19 @@ namespace BarcodeScan
             this.btnStop.Enabled = false;
             this.btnSet.Enabled = true;
             this.btnOpen.Enabled = true;
-
+            //
+            this.comboBar.SelectedIndex = 0;
+            //
+            if (string.IsNullOrEmpty(p.PLC_Port))
+                getSerialPort(comboPLC, p.PLC_Port);
+            if (string.IsNullOrEmpty(p.Scan_A_Port))
+                getSerialPort(comboBarA, p.Scan_A_Port);
+            if (string.IsNullOrEmpty(p.Scan_B_Port))
+                getSerialPort(comboBarB, p.Scan_B_Port);
+            if (string.IsNullOrEmpty(p.Scan_C_Port))
+                getSerialPort(comboBarC, p.Scan_C_Port);
+            if (string.IsNullOrEmpty(p.Scan_D_Port))
+                getSerialPort(comboBarD, p.Scan_D_Port);
 
         }
 
@@ -397,7 +409,7 @@ namespace BarcodeScan
 
         #endregion
 
-        #region 动态选择串口（Dynamic detect serial port）
+        #region Dynamic detect serial port
 
         // usb消息定义
         public const int WM_DEVICE_CHANGE = 0x219;
@@ -422,9 +434,9 @@ namespace BarcodeScan
             // Variable?length field dbcp_name is declared here in the C header file.
         }
 
-        ///<summary>
+        /// <summary>
         /// 检测USB串口的拔插
-        ///</summary>
+        /// </summary>
         /// <param name="m"></param>
         protected override void WndProc(ref Message m)
         {
@@ -443,22 +455,42 @@ namespace BarcodeScan
                             {
                                 // comboPortName.Items.Remove(portName);
 
-                                getSerialPort(comboPLC, p.PLC_Port);
-                                getSerialPort(comboBarA, p.Scan_A_Port);
-                                getSerialPort(comboBarB, p.Scan_B_Port);
-                                getSerialPort(comboBarC, p.Scan_C_Port);
-                                getSerialPort(comboBarD, p.Scan_D_Port);
-                      
+                                if ( btnRun.Enabled)
+                                {
+                                    getSerialPort(comboPLC, p.PLC_Port);
+                                    getSerialPort(comboBarA, p.Scan_A_Port);
+                                    getSerialPort(comboBarB, p.Scan_B_Port);
+                                    getSerialPort(comboBarC, p.Scan_C_Port);
+                                    getSerialPort(comboBarD, p.Scan_D_Port);
+
+
+                                }
+                                else
+                                {
+                                    //sp = new System.Media.SoundPlayer(global::SpotTestTester.Properties.Resources.ng);
+                                    //sp.Play();
+                                    updateMessage(lstMessage , "Port '" + portName + "' leaved.");
+                                    saveLog(p.LogType.SysLog , "Port '" + portName + "' leaved.");
+                                    // updateMessage(lstHistoryLog, "偵測到串口丟失，請重新設置后點擊開始，若無法啟動，點擊Restart再點擊Start。");
+                                    //closePort(spPLC);
+                                    //closePort(spSN);
+                                    //pressStopButton();
+                                }
+
 
                             }
                             catch (Exception ex)
                             {
                                 //sp = new System.Media.SoundPlayer(global::SpotTestTester.Properties.Resources.ng);
                                 //sp.Play();
-                     
+                                //updateMessage(lstHistoryLog, "Port '" + portName + "' leaved.");
+                                //updateMessage(lstHistoryLog, ex.Message);
+                                updateMessage(lstMessage , ex.Message);
+                                saveLog(p.LogType.SysLog , ex.Message);
+
+
                             }
-                            Console.WriteLine("已侦测到串口 '" + portName + "' 被移除...");
-                            saveLog(p.LogType.SysLog, "已侦测到串口 '" + portName + "' 被移除...");
+                            Console.WriteLine("Port '" + portName + "' leaved.");
                         }
 
                         break;
@@ -466,17 +498,20 @@ namespace BarcodeScan
                         DEV_BROADCAST_HDR dbhdr = (DEV_BROADCAST_HDR)Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_HDR));
                         if (dbhdr.dbch_devicetype == DBT_DEVTYP_PORT)
                         {
-        
-                            Console.WriteLine("已侦测到串口 '" + portName + "' 插入电脑.");
-                            saveLog(p.LogType.SysLog, "已侦测到串口 '" + portName + "' 插入电脑.");
+                            getSerialPort(comboPLC, p.PLC_Port);
+                            getSerialPort(comboBarA, p.Scan_A_Port);
+                            getSerialPort(comboBarB, p.Scan_B_Port);
+                            getSerialPort(comboBarC, p.Scan_C_Port);
+                            getSerialPort(comboBarD, p.Scan_D_Port);
+                            Console.WriteLine("Port '" + portName + "' arrived.");
+                            updateMessage(lstMessage, "Port '" + portName + "' arrived.");
+                            saveLog(p.LogType.SysLog, "Port '" + portName + "' arrived.");
                         }
-                     break;
+                        break;
                 }
             }
             base.WndProc(ref m);
         }
-
-
         #endregion
 
         private void brnRefresh_Click(object sender, EventArgs e)
