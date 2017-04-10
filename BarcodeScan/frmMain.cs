@@ -256,22 +256,23 @@ namespace BarcodeScan
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
+
             if (btnOpen.Text.Trim().ToUpper() == "OPEN")
             {
                 btnOpen.Text = "Close";
-                switch (lstBar.SelectedItem.ToString())
+                switch (comboBar.SelectedItem.ToString ())
                 {
                     case "A":
-                        TestOpenScanner(spBar_A , "A", "PC->BarA:");
+                        TestOpenScanner(spBar_A , p.Scan_A_Port , "A", "PC->BarA:");
                         break;
                     case "B":
-                        TestOpenScanner(spBar_B, "B", "PC->BarB:");
+                        TestOpenScanner(spBar_B, p.Scan_B_Port ,"B", "PC->BarB:");
                         break;
                     case "C":
-                        TestOpenScanner(spBar_C, "C", "PC->BarC:");
+                        TestOpenScanner(spBar_C, p.Scan_C_Port ,"C", "PC->BarC:");
                         break;
                     case  "D":
-                        TestOpenScanner(spBar_D, "D", "PC->BarD:");
+                        TestOpenScanner(spBar_D,p.Scan_D_Port , "D", "PC->BarD:");
                         break ;
                     default:
                         break;
@@ -280,7 +281,7 @@ namespace BarcodeScan
             else
             {
                 btnOpen.Text = "Open";
-                switch (lstBar.SelectedItem.ToString())
+                switch (comboBar.SelectedItem.ToString ())
                 {
                     case "A":
                        TestCloseScanner (spBar_A ,"A","PC->BarA:");
@@ -311,14 +312,15 @@ namespace BarcodeScan
         /// <summary>
         /// 测试打开串口，并保存log
         /// </summary>
+        /// <param name="portname">串口号</param>
         /// <param name="sp">串口控件</param>
         /// <param name="str1">条码枪标志,如A,B,C,D</param>
         /// <param name="str2">log前缀，如”PC->BarA:"</param>
-        private void TestOpenScanner(SerialPort sp, string str1, string str2)
+        private void TestOpenScanner(SerialPort sp, string portname, string str1, string str2)
         {
             updateMessage(lstMessage, "Start test scanner " + str1 +" ,open it...");
             saveLog(p.LogType.SysLog, "Start test scanner " + str1 + " ,open it...");
-            openScanner(sp, str2);
+            openScanner(sp,portname, str2);
             _runing = false;
         }
 
@@ -327,10 +329,13 @@ namespace BarcodeScan
         /// <summary>
         /// 打开条码枪串口，并保存log
         /// </summary>
+        /// <param name="portname">串口号</param>
         /// <param name="sp">串口控件</param>
         /// <param name="str2">log前缀，如”PC->BarA:"</param>
-        private void openScanner(SerialPort sp, string str2)
+        private void openScanner(SerialPort sp,string portname, string str2)
         {
+
+            openSerialPort(sp, portname);
             if (p.Open_Add_Enter)
                 sendData(sp, p.Open_Scan_Command + Other.Chr(13));
             else
@@ -349,6 +354,7 @@ namespace BarcodeScan
         {
             updateMessage(lstMessage, "End test scanner " + str1 + " ,close it...");
             saveLog(p.LogType.SysLog, "End test scanner " + str1 + " ,close it...");
+            //sp.PortName = portname;
             closeScanner(sp, str2);
             _runing = true;
         }
@@ -360,14 +366,16 @@ namespace BarcodeScan
         /// </summary>
         /// <param name="sp">串口控件</param>
         /// <param name="str2">log前缀，如”PC->BarA:"</param>
-        private void closeScanner(SerialPort sp, string str2)
+        private void closeScanner(SerialPort sp,string str2)
         {
+            //sp.PortName = portname;
             if (p.Close_Add_Enter)
                 sendData(sp, p.Close_Scan_Command + Other.Chr(13));
             else
                 sendData(sp, p.Close_Scan_Command);
             updateMessage(lstMessage, str2 + p.Close_Scan_Command);
             saveLog(p.LogType.SysLog, str2 + p.Close_Scan_Command);
+            closeSerialPort(sp);
         }
 
 
