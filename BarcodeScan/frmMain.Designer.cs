@@ -66,6 +66,7 @@
             this.spBar_B = new System.IO.Ports.SerialPort(this.components);
             this.spBar_C = new System.IO.Ports.SerialPort(this.components);
             this.spBar_D = new System.IO.Ports.SerialPort(this.components);
+            this.timerScanTimeout = new System.Windows.Forms.Timer(this.components);
             this.grbmessage.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -306,7 +307,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.lstBar);
-            this.groupBox3.Location = new System.Drawing.Point(500, 145);
+            this.groupBox3.Location = new System.Drawing.Point(500, 147);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(321, 439);
             this.groupBox3.TabIndex = 1;
@@ -419,6 +420,11 @@
             // 
             this.spBar_D.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_D_DataReceived);
             // 
+            // timerScanTimeout
+            // 
+            this.timerScanTimeout.Interval = 1500;
+            this.timerScanTimeout.Tick += new System.EventHandler(this.timerScanTimeout_Tick);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -487,6 +493,7 @@
         private System.IO.Ports.SerialPort spBar_B;
         private System.IO.Ports.SerialPort spBar_C;
         private System.IO.Ports.SerialPort spBar_D;
+        private System.Windows.Forms.Timer timerScanTimeout;
     }
 }
 

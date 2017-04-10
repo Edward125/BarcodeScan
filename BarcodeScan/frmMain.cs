@@ -35,7 +35,13 @@ namespace BarcodeScan
         }
 
 
+        #region 參數定義
 
+        private int _MaxTryCount = 3;
+        private int _CurrentTryCount = 0;
+
+
+        #endregion
 
         #region checkFoder
         private void checkFolder()
@@ -254,6 +260,10 @@ namespace BarcodeScan
 
         private void btnRun_Click(object sender, EventArgs e)
         {
+            timerScanTimeout.Enabled = true;
+            timerScanTimeout.Start();
+
+            return;
               //check config value before start
             if (!checkSerialPortEmpty(p.PLC_Port, "PLC Portname can't be empty,pls set it...", this.comboPLC))
                 return;
@@ -642,6 +652,33 @@ namespace BarcodeScan
                     p.BarB = string.Empty;
                     p.BarC = string.Empty;
                     p.BarD = string.Empty;
+                    updateMessage(lstMessage, "Open Scanner & start timeout counting...");
+                    saveLog(p.LogType.SysLog, "Open Scanner & start timeout counting...");
+                    if (p.Open_Add_Enter)
+                    {
+                        sendData(spBar_A, p.Open_Scan_Command + Other.Chr(13));
+                        sendData(spBar_B, p.Open_Scan_Command + Other.Chr(13));
+                        sendData(spBar_C, p.Open_Scan_Command + Other.Chr(13));
+                        sendData(spBar_D, p.Open_Scan_Command + Other.Chr(13));
+                    }
+                    else
+                    {
+                        sendData(spBar_A, p.Open_Scan_Command);
+                        sendData(spBar_B, p.Open_Scan_Command);
+                        sendData(spBar_C, p.Open_Scan_Command);
+                        sendData(spBar_D, p.Open_Scan_Command);
+                    }
+                    updateMessage(lstMessage, "PC->BarA:" + p.Open_Scan_Command);
+                    updateMessage(lstMessage, "PC->BarB:" + p.Open_Scan_Command);
+                    updateMessage(lstMessage, "PC->BarC:" + p.Open_Scan_Command);
+                    updateMessage(lstMessage, "PC->BarD:" + p.Open_Scan_Command);
+                    saveLog(p.LogType.SysLog, "PC->BarA:" + p.Open_Scan_Command);
+                    saveLog(p.LogType.SysLog, "PC->BarB:" + p.Open_Scan_Command);
+                    saveLog(p.LogType.SysLog, "PC->BarC:" + p.Open_Scan_Command);
+                    saveLog(p.LogType.SysLog, "PC->BarD:" + p.Open_Scan_Command);
+
+                    timerScanTimeout.Enabled = true;
+                    timerScanTimeout.Start();
 
                 }
             }));
@@ -671,6 +708,7 @@ namespace BarcodeScan
                 saveLog(p.LogType.SysLog, "BarA->PC:" + sReceive);
                 updateMessage(lstMessage, "Read BarA:" + sReceive);
                 saveLog(p.LogType.SysLog, "Read BarA:" + sReceive);
+                updateMessage(lstBar, "BarA:" + sReceive);
                 p.BarA = sReceive .Trim ().ToUpper ();
                 txtBarA.Text = p.BarA;
                 saveLog(p.LogType.SNLog, "BarA:" + p.BarA);
@@ -705,6 +743,7 @@ namespace BarcodeScan
                 saveLog(p.LogType.SysLog, "BarB->PC:" + sReceive);
                 updateMessage(lstMessage, "Read BarB:" + sReceive);
                 saveLog(p.LogType.SysLog, "Read BarB:" + sReceive);
+                updateMessage(lstBar, "BarB:" + sReceive);
                 p.BarB = sReceive.Trim().ToUpper();
                 txtBarB.Text = p.BarB;
                 saveLog(p.LogType.SNLog, "BarB:" + p.BarB);
@@ -737,6 +776,7 @@ namespace BarcodeScan
                 saveLog(p.LogType.SysLog, "BarC->PC:" + sReceive);
                 updateMessage(lstMessage, "Read BarC:" + sReceive);
                 saveLog(p.LogType.SysLog, "Read BarC:" + sReceive);
+                updateMessage(lstBar, "BarC:" + sReceive);
                 p.BarC = sReceive.Trim().ToUpper();
                 txtBarC.Text = p.BarC;
                 saveLog(p.LogType.SNLog, "BarC:" + p.BarC);
@@ -769,9 +809,10 @@ namespace BarcodeScan
                 saveLog(p.LogType.SysLog, "BarD->PC:" + sReceive);
                 updateMessage(lstMessage, "Read BarD:" + sReceive);
                 saveLog(p.LogType.SysLog, "Read BarD:" + sReceive);
+                updateMessage(lstBar, "BarD:" + sReceive);
                 p.BarD = sReceive.Trim().ToUpper();
                 txtBarD.Text = p.BarD;
-                saveLog(p.LogType.SNLog, "BarC:" + p.BarC);
+                saveLog(p.LogType.SNLog, "BarD:" + p.BarD);
                 //check A,B,C,D
                 if (CheckAllBarComplete())
                 {
@@ -803,6 +844,7 @@ namespace BarcodeScan
                 saveLog(p.LogType.SN, p.BarB);
                 saveLog(p.LogType.SN, p.BarC);
                 saveLog(p.LogType.SN, p.BarD);
+                timerScanTimeout.Stop();
                 return true;
             }
             else
@@ -820,9 +862,109 @@ namespace BarcodeScan
 
         #endregion
 
+        private void timerScanTimeout_Tick(object sender, EventArgs e)
+        {
+            timerScanTimeout.Stop();
+            _CurrentTryCount++;
+            if (_CurrentTryCount > _MaxTryCount)
+            {
+
+                updateMessage(lstMessage, "Current try to read barcode is bigger than max try times,reset plc...");
+                saveLog(p.LogType.SysLog, "Current try to read barcode is bigger than max try times,reset plc...");
+                sendData(spPLC, "C");
+                updateMessage(lstMessage, "PC->PLC:C");
+                saveLog(p.LogType.SysLog, "PC->PLC:C");
+                _CurrentTryCount = 0;
+                return;
+            }
+            else
+            {
+                updateMessage(lstMessage, "This is " + _CurrentTryCount + " time(s) read barcode timeout...");
+                saveLog(p.LogType.SysLog, "This is " + _CurrentTryCount + " time(s) read barcode timeout...");
+
+                if (!CheckAllBarComplete())
+                {
+                    updateMessage(lstMessage, "Then try to close sacnner & open it to read it again...");
+                    saveLog(p.LogType.SysLog, "Then try to close sacnner & open it to read it again...");
+                    if (string.IsNullOrEmpty(p.BarA))
+                    {
+                        //updateMessage(lstMessage, "Scanner A close...");
+                        //saveLog(p.LogType.SysLog, "Scanner A close...");
+                        //if (p.Close_Add_Enter)
+                        //    sendData(spBar_A, p.Close_Scan_Command + Other.Chr(13));
+                        //else
+                        //    sendData(spBar_A, p.Close_Scan_Command);
+                        //updateMessage(lstMessage, "PC->BarA:" + p.Close_Scan_Command);
+                        //saveLog(p.LogType.SysLog, "PC->BarA:" + p.Close_Scan_Command);
+                        //Delay(500);
+                        //if (p.Open_Add_Enter)
+                        //    sendData(spBar_A, p.Open_Scan_Command + Other.Chr(13));
+                        //else
+                        //    sendData(spBar_A, p.Open_Scan_Command);
+                        //updateMessage(lstMessage, "PC->BarA:" + p.Open_Scan_Command);
+                        //saveLog(p.LogType.SysLog, "PC->BarA:" + p.Open_Scan_Command);
+                        ScanRetryReadBarcode(spBar_A, "Scanner A", "PC->BarA:");
+                    }
+                    if (string.IsNullOrEmpty(p.BarB))
+                        ScanRetryReadBarcode(spBar_B, "Scanner B", "PC->BarB:");
+                    if (string.IsNullOrEmpty(p.BarC))
+                        ScanRetryReadBarcode(spBar_C, "Scanner C", "PC->BarC:");
+                    if (string.IsNullOrEmpty(p.BarD))
+                        ScanRetryReadBarcode(spBar_D, "Scanner D", "PC->BarD:");
+                }
+                timerScanTimeout.Start();
+            }
+
+            
+        }
 
 
 
+        #region ScanRetryReadBarcode
+
+        private void ScanRetryReadBarcode(SerialPort sp,string str1,string str2)
+        {
+            updateMessage(lstMessage, str1 +" close...");
+            saveLog(p.LogType.SysLog, str1 + " close...");
+            if (p.Close_Add_Enter)
+                sendData(sp, p.Close_Scan_Command + Other.Chr(13));
+            else
+                sendData(sp, p.Close_Scan_Command);
+            updateMessage(lstMessage, str2  + p.Close_Scan_Command);
+            saveLog(p.LogType.SysLog, str2  + p.Close_Scan_Command);
+            Delay(500);
+            if (p.Open_Add_Enter)
+                sendData(sp, p.Open_Scan_Command + Other.Chr(13));
+            else
+                sendData(sp , p.Open_Scan_Command);
+            updateMessage(lstMessage, str2  + p.Open_Scan_Command);
+            saveLog(p.LogType.SysLog, str2 + p.Open_Scan_Command);
+        }
+
+        #endregion
+
+
+
+
+
+        #region 延時子程式
+
+        /// <summary>
+        /// 延時子程序
+        /// </summary>
+        /// <param name="interval">延時的時間，單位毫秒</param>
+        private void Delay(double interval)
+        {
+            DateTime time = DateTime.Now;
+            double span = interval * 10000;
+            while (DateTime.Now.Ticks - time.Ticks < span)
+            {
+                Application.DoEvents();
+            }
+
+        }
+
+        #endregion
 
 
     }
