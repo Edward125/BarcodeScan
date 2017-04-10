@@ -213,8 +213,45 @@ namespace BarcodeScan
             if (log == p.LogType.SNLog)
                 logpath = p.SNLogFile;
             if (log == p.LogType.SN)
+            {
                 logpath = p.SNFile;
+                //判斷文件是否存在，不存在就创建文件，存在就写入文件
 
+                if (File.Exists (@logpath ))
+                {
+
+                    try
+                    {
+                        File.Delete(@logpath);
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
+                }
+
+                if (!File.Exists(@logpath))
+                {
+                    FileStream fs = File.Create(@logpath);
+                    fs.Close();
+                    try
+                    {
+                        File.AppendAllText(@logpath, @logcontents + "\r\n");
+                    }
+                    catch (Exception)
+                    {
+                        //wait
+
+                    }
+
+
+                }
+               
+
+
+
+            }
 
             //判斷文件是否存在，不存在就创建文件，存在就写入文件
             if (!File.Exists(@logpath))
@@ -382,13 +419,6 @@ namespace BarcodeScan
             saveLog(p.LogType.SysLog, str2 + p.Close_Scan_Command);
             closeSerialPort(sp);
         }
-
-
-
-
-
-
-
 
         
         #endregion
