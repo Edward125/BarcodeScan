@@ -32,7 +32,7 @@
             this.grbmessage = new System.Windows.Forms.GroupBox();
             this.lstMessage = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.brnRefresh = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.comboBarD = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -54,7 +54,7 @@
             this.txtBarA = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lstBar = new System.Windows.Forms.ListBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.grbFunctionBtn = new System.Windows.Forms.GroupBox();
             this.btnSet = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
@@ -71,7 +71,7 @@
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.grbFunctionBtn.SuspendLayout();
             this.grbTestBarocdeScanner.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,7 +97,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.brnRefresh);
+            this.groupBox1.Controls.Add(this.btnRefresh);
             this.groupBox1.Controls.Add(this.comboBarD);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
@@ -115,15 +115,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SerialPortSetting";
             // 
-            // brnRefresh
+            // btnRefresh
             // 
-            this.brnRefresh.Location = new System.Drawing.Point(126, 94);
-            this.brnRefresh.Name = "brnRefresh";
-            this.brnRefresh.Size = new System.Drawing.Size(101, 28);
-            this.brnRefresh.TabIndex = 3;
-            this.brnRefresh.Text = "Refresh";
-            this.brnRefresh.UseVisualStyleBackColor = true;
-            this.brnRefresh.Click += new System.EventHandler(this.brnRefresh_Click);
+            this.btnRefresh.Location = new System.Drawing.Point(126, 94);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(101, 28);
+            this.btnRefresh.TabIndex = 3;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.brnRefresh_Click);
             // 
             // comboBarD
             // 
@@ -324,16 +324,16 @@
             this.lstBar.Size = new System.Drawing.Size(306, 410);
             this.lstBar.TabIndex = 0;
             // 
-            // groupBox4
+            // grbFunctionBtn
             // 
-            this.groupBox4.Controls.Add(this.btnSet);
-            this.groupBox4.Controls.Add(this.btnStop);
-            this.groupBox4.Controls.Add(this.btnRun);
-            this.groupBox4.Location = new System.Drawing.Point(623, 15);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(192, 62);
-            this.groupBox4.TabIndex = 3;
-            this.groupBox4.TabStop = false;
+            this.grbFunctionBtn.Controls.Add(this.btnSet);
+            this.grbFunctionBtn.Controls.Add(this.btnStop);
+            this.grbFunctionBtn.Controls.Add(this.btnRun);
+            this.grbFunctionBtn.Location = new System.Drawing.Point(623, 15);
+            this.grbFunctionBtn.Name = "grbFunctionBtn";
+            this.grbFunctionBtn.Size = new System.Drawing.Size(192, 62);
+            this.grbFunctionBtn.TabIndex = 3;
+            this.grbFunctionBtn.TabStop = false;
             // 
             // btnSet
             // 
@@ -431,7 +431,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(833, 597);
             this.Controls.Add(this.grbTestBarocdeScanner);
-            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.grbFunctionBtn);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -448,7 +448,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
+            this.grbFunctionBtn.ResumeLayout(false);
             this.grbTestBarocdeScanner.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -472,7 +472,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ListBox lstBar;
-        private System.Windows.Forms.Button brnRefresh;
+        private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
@@ -481,7 +481,7 @@
         private System.Windows.Forms.TextBox txtBarC;
         private System.Windows.Forms.TextBox txtBarB;
         private System.Windows.Forms.TextBox txtBarA;
-        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox grbFunctionBtn;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnRun;
         private System.Windows.Forms.GroupBox grbTestBarocdeScanner;

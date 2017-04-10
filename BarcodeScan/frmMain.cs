@@ -277,6 +277,9 @@ namespace BarcodeScan
                     default:
                         break;
                 }
+
+                grbFunctionBtn.Enabled = false;
+                this.comboBar.Enabled = false;
             }
             else
             {
@@ -298,6 +301,8 @@ namespace BarcodeScan
                     default:
                         break;
                 }
+                grbFunctionBtn.Enabled = true;
+                this.comboBar.Enabled = true;
             }
 
 
