@@ -39,6 +39,7 @@ namespace BarcodeScan
 
         private int _MaxTryCount = 3;
         private int _CurrentTryCount = 0;
+        private bool _runing = true; //run:true;test scanner:false
 
 
         #endregion
@@ -255,15 +256,138 @@ namespace BarcodeScan
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
+            if (btnOpen.Text.Trim().ToUpper() == "OPEN")
+            {
+                btnOpen.Text = "Close";
+                switch (lstBar.SelectedItem.ToString())
+                {
+                    case "A":
+                        TestOpenScanner(spBar_A , "A", "PC->BarA:");
+                        break;
+                    case "B":
+                        TestOpenScanner(spBar_B, "B", "PC->BarB:");
+                        break;
+                    case "C":
+                        TestOpenScanner(spBar_C, "C", "PC->BarC:");
+                        break;
+                    case  "D":
+                        TestOpenScanner(spBar_D, "D", "PC->BarD:");
+                        break ;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                btnOpen.Text = "Open";
+                switch (lstBar.SelectedItem.ToString())
+                {
+                    case "A":
+                       TestCloseScanner (spBar_A ,"A","PC->BarA:");
+                        break;
+                    case "B":
+                        TestCloseScanner(spBar_B, "B", "PC->BarB:");
+                        break;
+                    case "C":
+                        TestCloseScanner(spBar_C, "B", "PC->BarC:");
+                        break;
+                    case "D":
+                        TestCloseScanner(spBar_D, "A", "PC->BarD:");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+
 
         }
 
+
+
+        #region TestScanner
+
+        /// <summary>
+        /// 测试打开串口，并保存log
+        /// </summary>
+        /// <param name="sp">串口控件</param>
+        /// <param name="str1">条码枪标志,如A,B,C,D</param>
+        /// <param name="str2">log前缀，如”PC->BarA:"</param>
+        private void TestOpenScanner(SerialPort sp, string str1, string str2)
+        {
+            updateMessage(lstMessage, "Start test scanner " + str1 +" ,open it...");
+            saveLog(p.LogType.SysLog, "Start test scanner " + str1 + " ,open it...");
+            openScanner(sp, str2);
+            _runing = false;
+        }
+
+
+
+        /// <summary>
+        /// 打开条码枪串口，并保存log
+        /// </summary>
+        /// <param name="sp">串口控件</param>
+        /// <param name="str2">log前缀，如”PC->BarA:"</param>
+        private void openScanner(SerialPort sp, string str2)
+        {
+            if (p.Open_Add_Enter)
+                sendData(sp, p.Open_Scan_Command + Other.Chr(13));
+            else
+                sendData(sp, p.Open_Scan_Command);
+            updateMessage(lstMessage, str2 + p.Open_Scan_Command);
+            saveLog(p.LogType.SysLog, str2 + p.Open_Scan_Command);
+        }
+
+        /// <summary>
+        /// 测试关闭串口，并保存log
+        /// </summary>
+        /// <param name="sp">串口控件</param>
+        /// <param name="str1">条码枪标志,如A,B,C,D</param>
+        /// <param name="str2">log前缀，如”PC->BarA:"</param>
+        private void TestCloseScanner(SerialPort sp, string str1, string str2)
+        {
+            updateMessage(lstMessage, "End test scanner " + str1 + " ,close it...");
+            saveLog(p.LogType.SysLog, "End test scanner " + str1 + " ,close it...");
+            closeScanner(sp, str2);
+            _runing = true;
+        }
+
+
+
+        /// <summary>
+        /// 打开条码枪串口，并保存log
+        /// </summary>
+        /// <param name="sp">串口控件</param>
+        /// <param name="str2">log前缀，如”PC->BarA:"</param>
+        private void closeScanner(SerialPort sp, string str2)
+        {
+            if (p.Close_Add_Enter)
+                sendData(sp, p.Close_Scan_Command + Other.Chr(13));
+            else
+                sendData(sp, p.Close_Scan_Command);
+            updateMessage(lstMessage, str2 + p.Close_Scan_Command);
+            saveLog(p.LogType.SysLog, str2 + p.Close_Scan_Command);
+        }
+
+
+
+
+
+
+
+
+        
+        #endregion
+
+
+
         private void btnRun_Click(object sender, EventArgs e)
         {
-            timerScanTimeout.Enabled = true;
-            timerScanTimeout.Start();
+            //timerScanTimeout.Enabled = true;
+            //timerScanTimeout.Start();
 
-            return;
+            //return;
               //check config value before start
             if (!checkSerialPortEmpty(p.PLC_Port, "PLC Portname can't be empty,pls set it...", this.comboPLC))
                 return;
@@ -331,6 +455,7 @@ namespace BarcodeScan
             this.btnStop.Enabled = true;
             this.btnSet.Enabled = false;
             grbTestBarocdeScanner.Enabled = false;
+            _runing = true;
 
 
 
@@ -688,6 +813,10 @@ namespace BarcodeScan
         {
 
             closeSerialPort(spPLC);
+            closeSerialPort(spBar_A);
+            closeSerialPort(spBar_B);
+            closeSerialPort(spBar_C);
+            closeSerialPort(spBar_D);
             //
             this.btnRun.Enabled = true;
             this.btnStop.Enabled = false;
@@ -713,18 +842,20 @@ namespace BarcodeScan
                 txtBarA.Text = p.BarA;
                 saveLog(p.LogType.SNLog, "BarA:" + p.BarA);
                 //check A,B,C,D
-                if (CheckAllBarComplete())
+                if (_runing)
                 {
-                    sendData(spPLC, "B");
-                    updateMessage(lstMessage, "PC->PLC:B");
-                    saveLog(p.LogType.SysLog , "PC->PLC:B");
-                
-                }
-                else
-                {
+                    if (CheckAllBarComplete())
+                    {
+                        sendData(spPLC, "B");
+                        updateMessage(lstMessage, "PC->PLC:B");
+                        saveLog(p.LogType.SysLog, "PC->PLC:B");
 
-                }
+                    }
+                    else
+                    {
 
+                    }
+                }
 
 
             }));
@@ -748,16 +879,19 @@ namespace BarcodeScan
                 txtBarB.Text = p.BarB;
                 saveLog(p.LogType.SNLog, "BarB:" + p.BarB);
                 //check A,B,C,D
-                if (CheckAllBarComplete())
+                if (_runing)
                 {
-                    sendData(spPLC, "B");
-                    updateMessage(lstMessage, "PC->PLC:B");
-                    saveLog(p.LogType.SysLog, "PC->PLC:B");
+                    if (CheckAllBarComplete())
+                    {
+                        sendData(spPLC, "B");
+                        updateMessage(lstMessage, "PC->PLC:B");
+                        saveLog(p.LogType.SysLog, "PC->PLC:B");
 
-                }
-                else
-                {
+                    }
+                    else
+                    {
 
+                    }
                 }
 
             }));
@@ -781,16 +915,19 @@ namespace BarcodeScan
                 txtBarC.Text = p.BarC;
                 saveLog(p.LogType.SNLog, "BarC:" + p.BarC);
                 //check A,B,C,D
-                if (CheckAllBarComplete())
+                if (_runing)
                 {
-                    sendData(spPLC, "B");
-                    updateMessage(lstMessage, "PC->PLC:B");
-                    saveLog(p.LogType.SysLog, "PC->PLC:B");
+                    if (CheckAllBarComplete())
+                    {
+                        sendData(spPLC, "B");
+                        updateMessage(lstMessage, "PC->PLC:B");
+                        saveLog(p.LogType.SysLog, "PC->PLC:B");
 
-                }
-                else
-                {
+                    }
+                    else
+                    {
 
+                    }
                 }
 
             }));
@@ -814,16 +951,19 @@ namespace BarcodeScan
                 txtBarD.Text = p.BarD;
                 saveLog(p.LogType.SNLog, "BarD:" + p.BarD);
                 //check A,B,C,D
-                if (CheckAllBarComplete())
+                if (_runing)
                 {
-                    sendData(spPLC, "B");
-                    updateMessage(lstMessage, "PC->PLC:B");
-                    saveLog(p.LogType.SysLog, "PC->PLC:B");
+                    if (CheckAllBarComplete())
+                    {
+                        sendData(spPLC, "B");
+                        updateMessage(lstMessage, "PC->PLC:B");
+                        saveLog(p.LogType.SysLog, "PC->PLC:B");
 
-                }
-                else
-                {
+                    }
+                    else
+                    {
 
+                    }
                 }
 
             }));
@@ -942,10 +1082,6 @@ namespace BarcodeScan
         }
 
         #endregion
-
-
-
-
 
         #region 延時子程式
 
