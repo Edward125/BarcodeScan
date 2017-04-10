@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.grbmessage = new System.Windows.Forms.GroupBox();
             this.lstMessage = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grbSerialPortSetting = new System.Windows.Forms.GroupBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.comboBarD = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -68,7 +68,7 @@
             this.spBar_D = new System.IO.Ports.SerialPort(this.components);
             this.timerScanTimeout = new System.Windows.Forms.Timer(this.components);
             this.grbmessage.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.grbSerialPortSetting.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.grbFunctionBtn.SuspendLayout();
@@ -95,25 +95,25 @@
             this.lstMessage.Size = new System.Drawing.Size(470, 410);
             this.lstMessage.TabIndex = 0;
             // 
-            // groupBox1
+            // grbSerialPortSetting
             // 
-            this.groupBox1.Controls.Add(this.btnRefresh);
-            this.groupBox1.Controls.Add(this.comboBarD);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.comboBarB);
-            this.groupBox1.Controls.Add(this.comboBarA);
-            this.groupBox1.Controls.Add(this.comboBarC);
-            this.groupBox1.Controls.Add(this.comboPLC);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(240, 130);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "SerialPortSetting";
+            this.grbSerialPortSetting.Controls.Add(this.btnRefresh);
+            this.grbSerialPortSetting.Controls.Add(this.comboBarD);
+            this.grbSerialPortSetting.Controls.Add(this.label5);
+            this.grbSerialPortSetting.Controls.Add(this.label4);
+            this.grbSerialPortSetting.Controls.Add(this.label3);
+            this.grbSerialPortSetting.Controls.Add(this.label2);
+            this.grbSerialPortSetting.Controls.Add(this.label1);
+            this.grbSerialPortSetting.Controls.Add(this.comboBarB);
+            this.grbSerialPortSetting.Controls.Add(this.comboBarA);
+            this.grbSerialPortSetting.Controls.Add(this.comboBarC);
+            this.grbSerialPortSetting.Controls.Add(this.comboPLC);
+            this.grbSerialPortSetting.Location = new System.Drawing.Point(12, 12);
+            this.grbSerialPortSetting.Name = "grbSerialPortSetting";
+            this.grbSerialPortSetting.Size = new System.Drawing.Size(240, 130);
+            this.grbSerialPortSetting.TabIndex = 1;
+            this.grbSerialPortSetting.TabStop = false;
+            this.grbSerialPortSetting.Text = "SerialPortSetting";
             // 
             // btnRefresh
             // 
@@ -422,7 +422,7 @@
             // 
             // timerScanTimeout
             // 
-            this.timerScanTimeout.Interval = 5000;
+            this.timerScanTimeout.Interval = 1500;
             this.timerScanTimeout.Tick += new System.EventHandler(this.timerScanTimeout_Tick);
             // 
             // frmMain
@@ -434,7 +434,7 @@
             this.Controls.Add(this.grbFunctionBtn);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.grbSerialPortSetting);
             this.Controls.Add(this.grbmessage);
             this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -443,8 +443,8 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.grbmessage.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grbSerialPortSetting.ResumeLayout(false);
+            this.grbSerialPortSetting.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -458,7 +458,7 @@
 
         private System.Windows.Forms.GroupBox grbmessage;
         private System.Windows.Forms.ListBox lstMessage;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grbSerialPortSetting;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBarB;

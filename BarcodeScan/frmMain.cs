@@ -468,6 +468,7 @@ namespace BarcodeScan
             this.btnStop.Enabled = true;
             this.btnSet.Enabled = false;
             grbTestBarocdeScanner.Enabled = false;
+            grbSerialPortSetting.Enabled = false;
             _runing = true;
 
 
@@ -835,6 +836,7 @@ namespace BarcodeScan
             this.btnStop.Enabled = false;
             this.btnSet.Enabled = true;
             grbTestBarocdeScanner.Enabled = true;
+            grbSerialPortSetting.Enabled = true;
         }
 
         private void spBar_A_DataReceived(object sender, SerialDataReceivedEventArgs e)
