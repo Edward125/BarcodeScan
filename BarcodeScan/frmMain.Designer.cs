@@ -79,7 +79,7 @@
             this.grbmessage.Controls.Add(this.lstMessage);
             this.grbmessage.Location = new System.Drawing.Point(12, 148);
             this.grbmessage.Name = "grbmessage";
-            this.grbmessage.Size = new System.Drawing.Size(423, 439);
+            this.grbmessage.Size = new System.Drawing.Size(482, 439);
             this.grbmessage.TabIndex = 0;
             this.grbmessage.TabStop = false;
             this.grbmessage.Text = "CommandList";
@@ -91,7 +91,7 @@
             this.lstMessage.ItemHeight = 14;
             this.lstMessage.Location = new System.Drawing.Point(6, 21);
             this.lstMessage.Name = "lstMessage";
-            this.lstMessage.Size = new System.Drawing.Size(406, 410);
+            this.lstMessage.Size = new System.Drawing.Size(470, 410);
             this.lstMessage.TabIndex = 0;
             // 
             // groupBox1
@@ -306,9 +306,9 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.lstBar);
-            this.groupBox3.Location = new System.Drawing.Point(441, 145);
+            this.groupBox3.Location = new System.Drawing.Point(500, 145);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(380, 439);
+            this.groupBox3.Size = new System.Drawing.Size(321, 439);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "BarcodeList";
@@ -320,7 +320,7 @@
             this.lstBar.ItemHeight = 14;
             this.lstBar.Location = new System.Drawing.Point(6, 21);
             this.lstBar.Name = "lstBar";
-            this.lstBar.Size = new System.Drawing.Size(368, 410);
+            this.lstBar.Size = new System.Drawing.Size(306, 410);
             this.lstBar.TabIndex = 0;
             // 
             // groupBox4
@@ -402,6 +402,22 @@
             // spPLC
             // 
             this.spPLC.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spPLC_DataReceived);
+            // 
+            // spBar_A
+            // 
+            this.spBar_A.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_A_DataReceived);
+            // 
+            // spBar_B
+            // 
+            this.spBar_B.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_B_DataReceived);
+            // 
+            // spBar_C
+            // 
+            this.spBar_C.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_C_DataReceived);
+            // 
+            // spBar_D
+            // 
+            this.spBar_D.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_D_DataReceived);
             // 
             // frmMain
             // 

@@ -254,9 +254,7 @@ namespace BarcodeScan
 
         private void btnRun_Click(object sender, EventArgs e)
         {
-            updateMessage (lstMessage,"fhasdfhasdhfsdakjfhsdakjhfksdajhfksdjhfsdkjfhsadkjfhdsakjfhsdakjfhsdakjfhsdakjfhsdakjfhdjksahfjashfjashf");
-
-            //check config value before start
+              //check config value before start
             if (!checkSerialPortEmpty(p.PLC_Port, "PLC Portname can't be empty,pls set it...", this.comboPLC))
                 return;
             if (!checkSerialPortEmpty(p.Scan_A_Port, "Scanner A Portname can't be empty,pls set it...", this.comboBarA))
@@ -268,8 +266,53 @@ namespace BarcodeScan
             if (!checkSerialPortEmpty(p.Scan_D_Port, "Scanner D Portname can't be empty,pls set it...", this.comboBarD))
                 return;
 
+            // check command....
+            if (string.IsNullOrEmpty(p.Open_Scan_Command))
+            {
+                updateMessage(lstMessage, "Open Scanner command can't be empty or null,pls set it....");
+                saveLog(p.LogType.SysLog, "Open Scanner command can't be empty or null,pls set it....");
+                return;
+            }
+            if (string.IsNullOrEmpty(p.Close_Scan_Command))
+            {
+                updateMessage(lstMessage, "Close Scanner command can't be empty or null,pls set it...");
+                saveLog(p.LogType.SysLog, "Close Scanner command can't be empty or null,pls set it...");
+                return;
+            }
+
+
+            //
             if (!openSerialPort(spPLC, p.PLC_Port))
                 return;
+            if (!openSerialPort(spBar_A, p.Scan_A_Port))
+            {
+                closeSerialPort(spPLC);
+                return;
+            }
+            if (!openSerialPort(spBar_B, p.Scan_B_Port))
+            {
+                closeSerialPort(spPLC);
+                closeSerialPort(spBar_A);
+                return;
+            }
+            if (!openSerialPort(spBar_C, p.Scan_C_Port))
+            {
+                closeSerialPort(spPLC);
+                closeSerialPort(spBar_A);
+                closeSerialPort(spBar_B);
+                return;
+            }
+            if (!openSerialPort(spBar_D, p.Scan_D_Port))
+            {
+                closeSerialPort(spPLC);
+                closeSerialPort(spBar_A);
+                closeSerialPort(spBar_B);
+                closeSerialPort(spBar_C);
+                return;
+            }
+           
+
+
 
 
 
@@ -580,7 +623,6 @@ namespace BarcodeScan
         {
             if (spPLC.BytesToRead == 0)
                 return;
-
             string sReceive = spPLC.ReadExisting();
             spPLC.DiscardInBuffer();
             sReceive = sReceive.Trim();
@@ -602,8 +644,6 @@ namespace BarcodeScan
                     p.BarD = string.Empty;
 
                 }
-
-
             }));
         }
 
@@ -617,6 +657,172 @@ namespace BarcodeScan
             this.btnSet.Enabled = true;
             grbTestBarocdeScanner.Enabled = true;
         }
+
+        private void spBar_A_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (spBar_A.BytesToRead == 0)
+                return;
+            string sReceive = spBar_A.ReadTo(Other.Chr(13));
+            spBar_A.DiscardInBuffer();
+            sReceive = sReceive.Trim();
+            this.Invoke((EventHandler)(delegate
+            {
+                updateMessage(lstMessage, "BarA->PC:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarA->PC:" + sReceive);
+                updateMessage(lstMessage, "Read BarA:" + sReceive);
+                saveLog(p.LogType.SysLog, "Read BarA:" + sReceive);
+                p.BarA = sReceive .Trim ().ToUpper ();
+                txtBarA.Text = p.BarA;
+                saveLog(p.LogType.SNLog, "BarA:" + p.BarA);
+                //check A,B,C,D
+                if (CheckAllBarComplete())
+                {
+                    sendData(spPLC, "B");
+                    updateMessage(lstMessage, "PC->PLC:B");
+                    saveLog(p.LogType.SysLog , "PC->PLC:B");
+                
+                }
+                else
+                {
+
+                }
+
+
+
+            }));
+        }
+
+        private void spBar_B_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (spBar_B.BytesToRead == 0)
+                return;
+            string sReceive = spBar_B.ReadTo(Other.Chr(13));
+            spBar_B.DiscardInBuffer();
+            sReceive = sReceive.Trim();
+            this.Invoke((EventHandler)(delegate
+            {
+                updateMessage(lstMessage, "BarB->PC:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarB->PC:" + sReceive);
+                updateMessage(lstMessage, "Read BarB:" + sReceive);
+                saveLog(p.LogType.SysLog, "Read BarB:" + sReceive);
+                p.BarB = sReceive.Trim().ToUpper();
+                txtBarB.Text = p.BarB;
+                saveLog(p.LogType.SNLog, "BarB:" + p.BarB);
+                //check A,B,C,D
+                if (CheckAllBarComplete())
+                {
+                    sendData(spPLC, "B");
+                    updateMessage(lstMessage, "PC->PLC:B");
+                    saveLog(p.LogType.SysLog, "PC->PLC:B");
+
+                }
+                else
+                {
+
+                }
+
+            }));
+        }
+
+        private void spBar_C_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (spBar_C.BytesToRead == 0)
+                return;
+            string sReceive = spBar_C.ReadTo(Other.Chr(13));
+            spBar_C.DiscardInBuffer();
+            sReceive = sReceive.Trim();
+            this.Invoke((EventHandler)(delegate
+            {
+                updateMessage(lstMessage, "BarC->PC:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarC->PC:" + sReceive);
+                updateMessage(lstMessage, "Read BarC:" + sReceive);
+                saveLog(p.LogType.SysLog, "Read BarC:" + sReceive);
+                p.BarC = sReceive.Trim().ToUpper();
+                txtBarC.Text = p.BarC;
+                saveLog(p.LogType.SNLog, "BarC:" + p.BarC);
+                //check A,B,C,D
+                if (CheckAllBarComplete())
+                {
+                    sendData(spPLC, "B");
+                    updateMessage(lstMessage, "PC->PLC:B");
+                    saveLog(p.LogType.SysLog, "PC->PLC:B");
+
+                }
+                else
+                {
+
+                }
+
+            }));
+        }
+
+        private void spBar_D_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (spBar_D.BytesToRead == 0)
+                return;
+            string sReceive = spBar_D.ReadTo(Other.Chr(13));
+            spBar_D.DiscardInBuffer();
+            sReceive = sReceive.Trim();
+            this.Invoke((EventHandler)(delegate
+            {
+                updateMessage(lstMessage, "BarD->PC:" + sReceive);
+                saveLog(p.LogType.SysLog, "BarD->PC:" + sReceive);
+                updateMessage(lstMessage, "Read BarD:" + sReceive);
+                saveLog(p.LogType.SysLog, "Read BarD:" + sReceive);
+                p.BarD = sReceive.Trim().ToUpper();
+                txtBarD.Text = p.BarD;
+                saveLog(p.LogType.SNLog, "BarC:" + p.BarC);
+                //check A,B,C,D
+                if (CheckAllBarComplete())
+                {
+                    sendData(spPLC, "B");
+                    updateMessage(lstMessage, "PC->PLC:B");
+                    saveLog(p.LogType.SysLog, "PC->PLC:B");
+
+                }
+                else
+                {
+
+                }
+
+            }));
+        }
+
+
+
+
+        #region CheckAllBarComplete
+
+        private bool CheckAllBarComplete()
+        {
+            if (!string.IsNullOrEmpty(p.BarA) && !string.IsNullOrEmpty(p.BarB) && !string.IsNullOrEmpty(p.BarC) && !string.IsNullOrEmpty(p.BarD))
+            {
+
+                updateMessage(lstMessage, "4 barcodes are complete,save them to " + p.SNFile);
+                saveLog(p.LogType.SN, p.BarA);
+                saveLog(p.LogType.SN, p.BarB);
+                saveLog(p.LogType.SN, p.BarC);
+                saveLog(p.LogType.SN, p.BarD);
+                return true;
+            }
+            else
+            {
+                
+                return false;
+            }
+
+       
+        }
+
+        
+
+
+
+        #endregion
+
+
+
+
 
 
     }
