@@ -87,32 +87,32 @@ namespace BarcodeScan
         {
             //
             comboPLC.Text = p.PLC_Port;
-            this.spPLC.BaudRate = Convert.ToInt16(p.PLC_Baud_Rate);
-            this.spPLC.DataBits = Convert.ToInt16(p.PLC_Data_Bits);
+            this.spPLC.BaudRate = Convert.ToInt32 (p.PLC_Baud_Rate);
+            this.spPLC.DataBits = Convert.ToInt32(p.PLC_Data_Bits);
             this.spPLC.StopBits = p.PLC_Stop_Bits;
             this.spPLC.Parity = p.PLC_Parity;
             //
             comboBarA.Text = p.Scan_A_Port;
-            this.spBar_A.BaudRate = Convert.ToInt16(p.Scan_Baud_Rate);
-            this.spBar_A.DataBits = Convert.ToInt16(p.Scan_Data_Bits);
+            this.spBar_A.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
+            this.spBar_A.DataBits = Convert.ToInt32(p.Scan_Data_Bits);
             this.spBar_A.StopBits = p.Scan_Stop_Bits;
             this.spBar_A.Parity = p.Scan_Parity;
             //
             comboBarB.Text = p.Scan_B_Port;
-            this.spBar_B.BaudRate = Convert.ToInt16(p.Scan_Baud_Rate);
-            this.spBar_B.DataBits = Convert.ToInt16(p.Scan_Data_Bits);
+            this.spBar_B.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
+            this.spBar_B.DataBits = Convert.ToInt32(p.Scan_Data_Bits);
             this.spBar_B.StopBits = p.Scan_Stop_Bits;
             this.spBar_B.Parity = p.Scan_Parity;
             //
             comboBarC.Text = p.Scan_C_Port;
-            this.spBar_B.BaudRate = Convert.ToInt16(p.Scan_Baud_Rate);
-            this.spBar_B.DataBits = Convert.ToInt16(p.Scan_Data_Bits);
+            this.spBar_B.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
+            this.spBar_B.DataBits = Convert.ToInt32(p.Scan_Data_Bits);
             this.spBar_B.StopBits = p.Scan_Stop_Bits;
             this.spBar_B.Parity = p.Scan_Parity;
             //
             comboBarD.Text = p.Scan_D_Port;
-            this.spBar_D.BaudRate = Convert.ToInt16(p.Scan_Baud_Rate);
-            this.spBar_D.DataBits = Convert.ToInt16(p.Scan_Data_Bits);
+            this.spBar_D.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
+            this.spBar_D.DataBits = Convert.ToInt32(p.Scan_Data_Bits);
             this.spBar_D.StopBits = p.Scan_Stop_Bits;
             this.spBar_D.Parity = p.Scan_Parity;
           
