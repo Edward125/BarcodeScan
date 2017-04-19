@@ -5,6 +5,7 @@ using System.Windows.Forms ;
 using System.IO.Ports;
 using Edward;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace BarcodeScan
 {
@@ -39,6 +40,7 @@ namespace BarcodeScan
         public static string Close_Scan_Command = string.Empty;
         public static bool Open_Add_Enter = true;
         public static bool Close_Add_Enter = true;
+        public static bool Send_Command_Use_Hex = true;
         //
         public static string BarA = string.Empty;
         public static string BarB = string.Empty;
@@ -93,6 +95,7 @@ namespace BarcodeScan
             IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Close_Scan_Command", Close_Scan_Command, inifilepath);
             IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Open_Add_Enter", Open_Add_Enter.ToString(), inifilepath);
             IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Close_Add_Enter", Close_Add_Enter.ToString(), inifilepath);
+            IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Send_Command_Use_Hex", Send_Command_Use_Hex .ToString (), inifilepath);
         }
 
 
@@ -138,9 +141,28 @@ namespace BarcodeScan
             Close_Scan_Command = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Close_Scan_Command", inifilepath);
             Open_Add_Enter = Convert.ToBoolean(IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Open_Add_Enter", inifilepath));
             Close_Add_Enter  = Convert.ToBoolean(IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Close_Add_Enter", inifilepath));
+            //
+            string _Send_Command_Use_Hex = IniFile.IniReadValue(IniSection.Bar_COM.ToString(), "Send_Command_Use_Hex", inifilepath);
+            if (string.IsNullOrEmpty(_Send_Command_Use_Hex))
+            {
+                IniFile.IniWriteValue(IniSection.Bar_COM.ToString(), "Send_Command_Use_Hex", Send_Command_Use_Hex.ToString(), inifilepath);
+            }
+            else
+                Send_Command_Use_Hex = Convert.ToBoolean(_Send_Command_Use_Hex);
+             
+            
         }
 
 
+        /// <summary>
+        /// check the string if it is hex
+        /// </summary>
+        /// <param name="str">string </param>
+        /// <returns>Hex,return true;not hex,return false</returns>
+        public static  bool IsHex(string str)
+        {
+            return Regex.IsMatch(str, @"^[0-9,A-D,a-d]*$");
+        }
 
     }
 

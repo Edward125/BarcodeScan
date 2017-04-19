@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using Edward;
+using System.Text.RegularExpressions;
 
 namespace BarcodeScan
 {
@@ -95,8 +96,18 @@ namespace BarcodeScan
             this.txtOpen_Scan_Command.Text = p.Open_Scan_Command.Trim();
             this.txtClose_Scan_Command.Text = p.Close_Scan_Command.Trim();
             //
-            this.chkOpen_Add_Enter.Checked = Convert.ToBoolean(p.Open_Add_Enter);
-            this.chkClose_Add_Enter.Checked = Convert.ToBoolean(p.Close_Add_Enter);
+            this.chkHex.Checked = p.Send_Command_Use_Hex;
+            if (p.Send_Command_Use_Hex)
+            {
+                p.Open_Add_Enter = false;
+                p.Close_Add_Enter = false;
+                this.chkOpen_Add_Enter.Checked = false;
+                this.chkClose_Add_Enter.Checked = false;
+            }
+
+            this.chkOpen_Add_Enter.Checked = p.Open_Add_Enter;
+            this.chkClose_Add_Enter.Checked = p.Close_Add_Enter;
+            
 
         }
 
@@ -105,14 +116,58 @@ namespace BarcodeScan
 
         private void txtOpen_Scan_Command_TextChanged(object sender, EventArgs e)
         {
-            p.Open_Scan_Command = txtOpen_Scan_Command.Text.Trim();
-            IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Open_Scan_Command", p.Open_Scan_Command, p.IniFilePath);
+
+            if (p.Send_Command_Use_Hex)
+            {
+                if (!p.IsHex(this.txtOpen_Scan_Command.Text.Trim()))
+                {
+                    MessageBox.Show("what you input is not HEX,pls check...", "Check Open Scanner COmmand is Hex", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    
+                    this.txtOpen_Scan_Command.Focus();
+                    this.txtOpen_Scan_Command.SelectAll();
+                    return;
+                }
+                else
+                {
+                    p.Open_Scan_Command = txtOpen_Scan_Command.Text.Trim();
+                    IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Open_Scan_Command", p.Open_Scan_Command, p.IniFilePath);
+                }
+            }
+            else
+            {
+                p.Open_Scan_Command = txtOpen_Scan_Command.Text.Trim();
+                IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Open_Scan_Command", p.Open_Scan_Command, p.IniFilePath);
+            }
+
+
+           
         }
 
         private void txtClose_Scan_Command_TextChanged(object sender, EventArgs e)
         {
-            p.Close_Scan_Command = txtClose_Scan_Command.Text.Trim();
-            IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Close_Scan_Command", p.Close_Scan_Command, p.IniFilePath);
+
+            if (p.Send_Command_Use_Hex)
+            {
+                if (!p.IsHex(this.txtClose_Scan_Command .Text.Trim ()))
+                {
+                    MessageBox.Show("what you input is not HEX,pls check...", "Check Close Scanner Command is Hex", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                    this.txtClose_Scan_Command.Focus();
+                    this.txtClose_Scan_Command.SelectAll();
+                    return;
+                }
+                else
+                {
+                    p.Close_Scan_Command = txtClose_Scan_Command.Text.Trim();
+                    IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Close_Scan_Command", p.Close_Scan_Command, p.IniFilePath);
+                }
+            }
+            else
+            {
+                p.Close_Scan_Command = txtClose_Scan_Command.Text.Trim();
+                IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Close_Scan_Command", p.Close_Scan_Command, p.IniFilePath);
+            }
+           
         }
 
         private void chkOpen_Add_Enter_CheckedChanged(object sender, EventArgs e)
@@ -127,8 +182,75 @@ namespace BarcodeScan
             IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Close_Add_Enter", p.Close_Add_Enter.ToString(), p.IniFilePath);
         }
 
+        private void chkHex_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            p.Send_Command_Use_Hex = chkHex.Checked;
+            IniFile.IniWriteValue(p.IniSection.Bar_COM.ToString(), "Send_Command_Use_Hex",p.Send_Command_Use_Hex.ToString(), p.IniFilePath);
+            if (p.Send_Command_Use_Hex)
+            {
+                p.Open_Add_Enter = false;
+                p.Close_Add_Enter = false;
+                this.chkOpen_Add_Enter .Checked = false;
+                this.chkClose_Add_Enter.Checked  = false;
+            }
+        }
 
 
+
+
+        private void frmSetting_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (p.Send_Command_Use_Hex)
+            {
+                // check hex 
+                if (!p.IsHex(this.txtOpen_Scan_Command.Text.Trim()))
+                {
+                    MessageBox.Show("what you input is not HEX,pls check...", "Check Open Scanner COmmand is Hex", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                    this.txtOpen_Scan_Command.Focus();
+                    this.txtOpen_Scan_Command.SelectAll();
+                    e.Cancel = true;
+                    return;
+                }
+                if (!p.IsHex(this.txtClose_Scan_Command.Text.Trim()))
+                {
+                    MessageBox.Show("what you input is not HEX,pls check...", "Check Close Scanner Command is Hex", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                    this.txtClose_Scan_Command.Focus();
+                    this.txtClose_Scan_Command.SelectAll();
+                    e.Cancel = true;
+                    return;
+                }
+
+                //check length
+
+                if (!((txtOpen_Scan_Command.Text.Trim().Length % 2) == 0))
+                {
+                    MessageBox.Show("Open sanner command's length is not EVEN(偶数长度),pls check...", "Check Open sanner command length", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    this.txtOpen_Scan_Command.SelectAll();
+                    this.txtOpen_Scan_Command.Focus();
+                    e.Cancel = true;
+                    return;
+                }
+
+                if (!((txtClose_Scan_Command.Text.Trim().Length % 2) == 0))
+                {
+                    MessageBox.Show("Close sanner command's length is not EVEN(偶数长度),pls check...", "Check Close sanner command length", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    this.txtClose_Scan_Command.Focus();
+                    this.txtClose_Scan_Command.SelectAll();
+                    e.Cancel = true;
+                    return;
+                }
+
+
+
+
+
+            }
+    
+
+        }
 
     }
 

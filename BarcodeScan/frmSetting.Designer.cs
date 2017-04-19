@@ -54,6 +54,7 @@
             this.chkOpen_Add_Enter = new System.Windows.Forms.CheckBox();
             this.txtClose_Scan_Command = new System.Windows.Forms.TextBox();
             this.txtOpen_Scan_Command = new System.Windows.Forms.TextBox();
+            this.chkHex = new System.Windows.Forms.CheckBox();
             this.grbPLC.SuspendLayout();
             this.grbBar.SuspendLayout();
             this.grbBarControl.SuspendLayout();
@@ -305,6 +306,7 @@
             // 
             // grbBarControl
             // 
+            this.grbBarControl.Controls.Add(this.chkHex);
             this.grbBarControl.Controls.Add(this.label10);
             this.grbBarControl.Controls.Add(this.label9);
             this.grbBarControl.Controls.Add(this.chkClose_Add_Enter);
@@ -321,7 +323,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 79);
+            this.label10.Location = new System.Drawing.Point(10, 73);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(83, 14);
             this.label10.TabIndex = 5;
@@ -330,7 +332,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 40);
+            this.label9.Location = new System.Drawing.Point(12, 37);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(82, 14);
             this.label9.TabIndex = 4;
@@ -339,7 +341,7 @@
             // chkClose_Add_Enter
             // 
             this.chkClose_Add_Enter.AutoSize = true;
-            this.chkClose_Add_Enter.Location = new System.Drawing.Point(15, 145);
+            this.chkClose_Add_Enter.Location = new System.Drawing.Point(13, 124);
             this.chkClose_Add_Enter.Name = "chkClose_Add_Enter";
             this.chkClose_Add_Enter.Size = new System.Drawing.Size(157, 18);
             this.chkClose_Add_Enter.TabIndex = 3;
@@ -350,7 +352,7 @@
             // chkOpen_Add_Enter
             // 
             this.chkOpen_Add_Enter.AutoSize = true;
-            this.chkOpen_Add_Enter.Location = new System.Drawing.Point(14, 114);
+            this.chkOpen_Add_Enter.Location = new System.Drawing.Point(14, 101);
             this.chkOpen_Add_Enter.Name = "chkOpen_Add_Enter";
             this.chkOpen_Add_Enter.Size = new System.Drawing.Size(156, 18);
             this.chkOpen_Add_Enter.TabIndex = 2;
@@ -360,7 +362,7 @@
             // 
             // txtClose_Scan_Command
             // 
-            this.txtClose_Scan_Command.Location = new System.Drawing.Point(100, 74);
+            this.txtClose_Scan_Command.Location = new System.Drawing.Point(100, 68);
             this.txtClose_Scan_Command.Name = "txtClose_Scan_Command";
             this.txtClose_Scan_Command.Size = new System.Drawing.Size(94, 22);
             this.txtClose_Scan_Command.TabIndex = 1;
@@ -368,11 +370,22 @@
             // 
             // txtOpen_Scan_Command
             // 
-            this.txtOpen_Scan_Command.Location = new System.Drawing.Point(100, 37);
+            this.txtOpen_Scan_Command.Location = new System.Drawing.Point(100, 34);
             this.txtOpen_Scan_Command.Name = "txtOpen_Scan_Command";
             this.txtOpen_Scan_Command.Size = new System.Drawing.Size(94, 22);
             this.txtOpen_Scan_Command.TabIndex = 0;
             this.txtOpen_Scan_Command.TextChanged += new System.EventHandler(this.txtOpen_Scan_Command_TextChanged);
+            // 
+            // chkHex
+            // 
+            this.chkHex.AutoSize = true;
+            this.chkHex.Location = new System.Drawing.Point(13, 146);
+            this.chkHex.Name = "chkHex";
+            this.chkHex.Size = new System.Drawing.Size(157, 18);
+            this.chkHex.TabIndex = 6;
+            this.chkHex.Text = "Send Command Use Hex";
+            this.chkHex.UseVisualStyleBackColor = true;
+            this.chkHex.CheckedChanged += new System.EventHandler(this.chkHex_CheckedChanged);
             // 
             // frmSetting
             // 
@@ -388,6 +401,7 @@
             this.MaximizeBox = false;
             this.Name = "frmSetting";
             this.Text = "frmSetting";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSetting_FormClosing);
             this.Load += new System.EventHandler(this.frmSetting_Load);
             this.grbPLC.ResumeLayout(false);
             this.grbPLC.PerformLayout();
@@ -426,5 +440,6 @@
         private System.Windows.Forms.CheckBox chkOpen_Add_Enter;
         private System.Windows.Forms.TextBox txtClose_Scan_Command;
         private System.Windows.Forms.TextBox txtOpen_Scan_Command;
+        private System.Windows.Forms.CheckBox chkHex;
     }
 }

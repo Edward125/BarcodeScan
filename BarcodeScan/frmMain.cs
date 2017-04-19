@@ -428,6 +428,34 @@ namespace BarcodeScan
             }
 
 
+            if (p.Send_Command_Use_Hex)
+            {
+
+                if (!p.IsHex(p.Open_Scan_Command ))
+                {
+                    MessageBox.Show("what you input is not HEX,pls check...", "Check Open Scanner COmmand is Hex", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+                if (!p.IsHex(p.Close_Scan_Command ))
+                {
+                    MessageBox.Show("what you input is not HEX,pls check...", "Check Close Scanner Command is Hex", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+
+                if (!((p.Open_Scan_Command.Length % 2) == 0))
+                {
+                    MessageBox.Show("Open sanner command's length is not EVEN(偶数长度),pls check...", "Check Open sanner command length", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                if (!((p.Close_Scan_Command.Length % 2) == 0))
+                {
+                    MessageBox.Show("Close sanner command's length is not EVEN(偶数长度),pls check...", "Check Close sanner command length", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+            }
+
             //
             if (!openSerialPort(spPLC, p.PLC_Port))
                 return;
@@ -622,6 +650,37 @@ namespace BarcodeScan
             }
         }
 
+
+        /// <summary>
+        /// send hex to serial port
+        /// </summary>
+        /// <param name="spport">serial </param>
+        /// <param name="strdata">hex data</param>
+        private void sendHex(SerialPort spport, string strdata)
+        {
+
+            try
+            {
+                byte[] outBytes = new byte[strdata.Length / 2];
+                for (int i = 1; i <= strdata.Length - 1; i += 2)
+                {
+                    outBytes[(i - 1) / 2] = (byte)Convert.ToInt32(("0x" + strdata.Substring(i - 1, 2)), 16);
+                }
+                spport.Write(outBytes, 0, outBytes.Length);
+            }
+            catch (Exception e)
+            {
+
+                updateMessage(lstMessage, "Send " + spport.PortName + " " + strdata + "fail");
+                updateMessage(lstMessage, e.Message);
+                saveLog(p.LogType.SysLog, "Send " + spport.PortName + " " + strdata + "fail," + e.Message);
+            }
+
+         
+        }
+
+
+
         #endregion
 
         #region Dynamic detect serial port
@@ -793,20 +852,35 @@ namespace BarcodeScan
                     p.BarD = string.Empty;
                     updateMessage(lstMessage, "Open Scanner & start timeout counting...");
                     saveLog(p.LogType.SysLog, "Open Scanner & start timeout counting...");
-                    if (p.Open_Add_Enter)
+
+                    if (p.Send_Command_Use_Hex)
                     {
-                        sendData(spBar_A, p.Open_Scan_Command + Other.Chr(13));
-                        sendData(spBar_B, p.Open_Scan_Command + Other.Chr(13));
-                        sendData(spBar_C, p.Open_Scan_Command + Other.Chr(13));
-                        sendData(spBar_D, p.Open_Scan_Command + Other.Chr(13));
+                        sendHex(spBar_A, p.Open_Scan_Command);
+                        sendHex(spBar_B, p.Open_Scan_Command);
+                        sendHex(spBar_C, p.Open_Scan_Command);
+                        sendHex(spBar_D, p.Open_Scan_Command);
                     }
                     else
                     {
-                        sendData(spBar_A, p.Open_Scan_Command);
-                        sendData(spBar_B, p.Open_Scan_Command);
-                        sendData(spBar_C, p.Open_Scan_Command);
-                        sendData(spBar_D, p.Open_Scan_Command);
+
+                        if (p.Open_Add_Enter)
+                        {
+                            sendData(spBar_A, p.Open_Scan_Command + Other.Chr(13));
+                            sendData(spBar_B, p.Open_Scan_Command + Other.Chr(13));
+                            sendData(spBar_C, p.Open_Scan_Command + Other.Chr(13));
+                            sendData(spBar_D, p.Open_Scan_Command + Other.Chr(13));
+                        }
+                        else
+                        {
+                            sendData(spBar_A, p.Open_Scan_Command);
+                            sendData(spBar_B, p.Open_Scan_Command);
+                            sendData(spBar_C, p.Open_Scan_Command);
+                            sendData(spBar_D, p.Open_Scan_Command);
+                        }
                     }
+
+
+
                     updateMessage(lstMessage, "PC->BarA:" + p.Open_Scan_Command);
                     updateMessage(lstMessage, "PC->BarB:" + p.Open_Scan_Command);
                     updateMessage(lstMessage, "PC->BarC:" + p.Open_Scan_Command);
@@ -1095,17 +1169,35 @@ namespace BarcodeScan
         {
             updateMessage(lstMessage, str1 +" close...");
             saveLog(p.LogType.SysLog, str1 + " close...");
-            if (p.Close_Add_Enter)
-                sendData(sp, p.Close_Scan_Command + Other.Chr(13));
+
+            if (p.Send_Command_Use_Hex)
+            {
+                sendHex(sp, p.Close_Scan_Command);
+            }
             else
-                sendData(sp, p.Close_Scan_Command);
+            {
+                if (p.Close_Add_Enter)
+                    sendData(sp, p.Close_Scan_Command + Other.Chr(13));
+                else
+                    sendData(sp, p.Close_Scan_Command);
+            }
             updateMessage(lstMessage, str2  + p.Close_Scan_Command);
             saveLog(p.LogType.SysLog, str2  + p.Close_Scan_Command);
             Delay(500);
-            if (p.Open_Add_Enter)
-                sendData(sp, p.Open_Scan_Command + Other.Chr(13));
+
+            if (p.Send_Command_Use_Hex)
+            {
+                sendHex(sp, p.Open_Scan_Command);
+            }
             else
-                sendData(sp , p.Open_Scan_Command);
+            {
+                if (p.Open_Add_Enter)
+                    sendData(sp, p.Open_Scan_Command + Other.Chr(13));
+                else
+                    sendData(sp, p.Open_Scan_Command);
+            }
+
+           
             updateMessage(lstMessage, str2  + p.Open_Scan_Command);
             saveLog(p.LogType.SysLog, str2 + p.Open_Scan_Command);
         }
