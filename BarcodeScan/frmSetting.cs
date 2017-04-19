@@ -89,7 +89,7 @@ namespace BarcodeScan
             this.combPLC_Parity.Text = p.PLC_Parity.ToString();
             //
             this.combBar_BaudRate.Text = p.Scan_Baud_Rate;
-            this.combBar_DataBits.Text = p.PLC_Data_Bits;
+            this.combBar_DataBits.Text = p.Scan_Data_Bits;
             this.combBarStopBits.Text = p.Scan_Stop_Bits.ToString();
             this.combBar_Parity.Text = p.Scan_Parity.ToString();
             //

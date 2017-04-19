@@ -423,7 +423,7 @@
             // 
             // timerScanTimeout
             // 
-            this.timerScanTimeout.Interval = 1500;
+            this.timerScanTimeout.Interval = 2000;
             this.timerScanTimeout.Tick += new System.EventHandler(this.timerScanTimeout_Tick);
             // 
             // frmMain

@@ -85,12 +85,17 @@ namespace BarcodeScan
 
         private void loadConfigUI()
         {
+
+           
+
             //
             comboPLC.Text = p.PLC_Port;
             this.spPLC.BaudRate = Convert.ToInt32 (p.PLC_Baud_Rate);
             this.spPLC.DataBits = Convert.ToInt32(p.PLC_Data_Bits);
             this.spPLC.StopBits = p.PLC_Stop_Bits;
             this.spPLC.Parity = p.PLC_Parity;
+
+
             //
             comboBarA.Text = p.Scan_A_Port;
             this.spBar_A.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
@@ -348,10 +353,19 @@ namespace BarcodeScan
         {
 
             openSerialPort(sp, portname);
-            if (p.Open_Add_Enter)
-                sendData(sp, p.Open_Scan_Command + Other.Chr(13));
+
+            if (p.Send_Command_Use_Hex)
+            {
+                sendHex(sp, p.Open_Scan_Command);
+            }
             else
-                sendData(sp, p.Open_Scan_Command);
+            {
+                if (p.Open_Add_Enter)
+                    sendData(sp, p.Open_Scan_Command + Other.Chr(13));
+                else
+                    sendData(sp, p.Open_Scan_Command);
+            }
+
             updateMessage(lstMessage, str2 + p.Open_Scan_Command);
             saveLog(p.LogType.SysLog, str2 + p.Open_Scan_Command);
         }
@@ -381,10 +395,15 @@ namespace BarcodeScan
         private void closeScanner(SerialPort sp,string str2)
         {
             //sp.PortName = portname;
-            if (p.Close_Add_Enter)
-                sendData(sp, p.Close_Scan_Command + Other.Chr(13));
+            if (p.Send_Command_Use_Hex)
+                sendHex(sp, p.Close_Scan_Command);
             else
-                sendData(sp, p.Close_Scan_Command);
+            {
+                if (p.Close_Add_Enter)
+                    sendData(sp, p.Close_Scan_Command + Other.Chr(13));
+                else
+                    sendData(sp, p.Close_Scan_Command);
+            }
             updateMessage(lstMessage, str2 + p.Close_Scan_Command);
             saveLog(p.LogType.SysLog, str2 + p.Close_Scan_Command);
             closeSerialPort(sp);
@@ -831,7 +850,9 @@ namespace BarcodeScan
         {
             if (spPLC.BytesToRead == 0)
                 return;
-            string sReceive = spPLC.ReadExisting();
+            try
+            {
+                  string sReceive = spPLC.ReadExisting();
             spPLC.DiscardInBuffer();
             sReceive = sReceive.Trim();
             this.Invoke((EventHandler)(delegate
@@ -895,6 +916,12 @@ namespace BarcodeScan
 
                 }
             }));
+            }
+            catch (Exception)
+            {
+                
+               // throw;
+            }
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -917,44 +944,56 @@ namespace BarcodeScan
         {
             if (spBar_A.BytesToRead == 0)
                 return;
-            string sReceive = spBar_A.ReadTo(Other.Chr(13));
-            spBar_A.DiscardInBuffer();
-            sReceive = sReceive.Trim();
-            this.Invoke((EventHandler)(delegate
+            try
             {
-                updateMessage(lstMessage, "BarA->PC:" + sReceive);
-                saveLog(p.LogType.SysLog, "BarA->PC:" + sReceive);
-                updateMessage(lstMessage, "BarA:" + sReceive);
-                saveLog(p.LogType.SysLog, "BarA:" + sReceive);
-                updateMessage(lstBar, "BarA:" + sReceive);
-                p.BarA = sReceive .Trim ().ToUpper ();
-                txtBarA.Text = p.BarA;
-                saveLog(p.LogType.SNLog, "BarA:" + p.BarA);
-                //check A,B,C,D
-                if (_runing)
+                string sReceive = spBar_A.ReadTo(Other.Chr(13));
+                spBar_A.DiscardInBuffer();
+                sReceive = sReceive.Trim();
+                this.Invoke((EventHandler)(delegate
                 {
-                    if (CheckAllBarComplete())
+                    updateMessage(lstMessage, "BarA->PC:" + sReceive);
+                    saveLog(p.LogType.SysLog, "BarA->PC:" + sReceive);
+                    updateMessage(lstMessage, "BarA:" + sReceive);
+                    saveLog(p.LogType.SysLog, "BarA:" + sReceive);
+                    updateMessage(lstBar, "BarA:" + sReceive);
+                    p.BarA = sReceive.Trim().ToUpper();
+                    txtBarA.Text = p.BarA;
+                    saveLog(p.LogType.SNLog, "BarA:" + p.BarA);
+                    //check A,B,C,D
+                    if (_runing)
                     {
-                        sendData(spPLC, "B");
-                        updateMessage(lstMessage, "PC->PLC:B");
-                        saveLog(p.LogType.SysLog, "PC->PLC:B");
+                        if (CheckAllBarComplete())
+                        {
+                            sendData(spPLC, "B");
+                            updateMessage(lstMessage, "PC->PLC:B");
+                            saveLog(p.LogType.SysLog, "PC->PLC:B");
 
+                        }
+                        else
+                        {
+
+                        }
                     }
-                    else
-                    {
-
-                    }
-                }
 
 
-            }));
+                }));
+            }
+            catch (Exception)
+            {
+                
+               // throw;
+            }
+            
+       
         }
 
         private void spBar_B_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (spBar_B.BytesToRead == 0)
                 return;
-            string sReceive = spBar_B.ReadTo(Other.Chr(13));
+            try
+            {
+                 string sReceive = spBar_B.ReadTo(Other.Chr(13));
             spBar_B.DiscardInBuffer();
             sReceive = sReceive.Trim();
             this.Invoke((EventHandler)(delegate
@@ -984,13 +1023,21 @@ namespace BarcodeScan
                 }
 
             }));
+            }
+            catch (Exception)
+            {
+                
+                //throw;
+            }
         }
 
         private void spBar_C_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (spBar_C.BytesToRead == 0)
                 return;
-            string sReceive = spBar_C.ReadTo(Other.Chr(13));
+            try
+            {
+                    string sReceive = spBar_C.ReadTo(Other.Chr(13));
             spBar_C.DiscardInBuffer();
             sReceive = sReceive.Trim();
             this.Invoke((EventHandler)(delegate
@@ -1020,13 +1067,22 @@ namespace BarcodeScan
                 }
 
             }));
+            }
+            catch (Exception)
+            {
+                
+              //  throw;
+            }
+        
         }
 
         private void spBar_D_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (spBar_D.BytesToRead == 0)
                 return;
-            string sReceive = spBar_D.ReadTo(Other.Chr(13));
+            try
+            {
+                 string sReceive = spBar_D.ReadTo(Other.Chr(13));
             spBar_D.DiscardInBuffer();
             sReceive = sReceive.Trim();
             this.Invoke((EventHandler)(delegate
@@ -1056,6 +1112,12 @@ namespace BarcodeScan
                 }
 
             }));
+            }
+            catch (Exception)
+            {
+                
+               // throw;
+            }
         }
 
 
