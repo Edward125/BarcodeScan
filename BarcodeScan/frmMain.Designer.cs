@@ -65,9 +65,9 @@
             this.spPLC = new System.IO.Ports.SerialPort(this.components);
             this.spBar_A = new System.IO.Ports.SerialPort(this.components);
             this.spBar_B = new System.IO.Ports.SerialPort(this.components);
-            this.spBar_C = new System.IO.Ports.SerialPort(this.components);
             this.spBar_D = new System.IO.Ports.SerialPort(this.components);
             this.timerScanTimeout = new System.Windows.Forms.Timer(this.components);
+            this.spBar_C = new System.IO.Ports.SerialPort(this.components);
             this.grbmessage.SuspendLayout();
             this.grbSerialPortSetting.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -413,10 +413,6 @@
             // 
             this.spBar_B.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_B_DataReceived);
             // 
-            // spBar_C
-            // 
-            this.spBar_C.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_C_DataReceived);
-            // 
             // spBar_D
             // 
             this.spBar_D.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_D_DataReceived);
@@ -425,6 +421,10 @@
             // 
             this.timerScanTimeout.Interval = 2000;
             this.timerScanTimeout.Tick += new System.EventHandler(this.timerScanTimeout_Tick);
+            // 
+            // spBar_C
+            // 
+            this.spBar_C.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.spBar_C_DataReceived_1);
             // 
             // frmMain
             // 
@@ -493,9 +493,9 @@
         private System.IO.Ports.SerialPort spPLC;
         private System.IO.Ports.SerialPort spBar_A;
         private System.IO.Ports.SerialPort spBar_B;
-        private System.IO.Ports.SerialPort spBar_C;
         private System.IO.Ports.SerialPort spBar_D;
         private System.Windows.Forms.Timer timerScanTimeout;
+        private System.IO.Ports.SerialPort spBar_C;
     }
 }
 

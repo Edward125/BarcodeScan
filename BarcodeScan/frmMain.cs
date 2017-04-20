@@ -110,10 +110,10 @@ namespace BarcodeScan
             this.spBar_B.Parity = p.Scan_Parity;
             //
             comboBarC.Text = p.Scan_C_Port;
-            this.spBar_B.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
-            this.spBar_B.DataBits = Convert.ToInt32(p.Scan_Data_Bits);
-            this.spBar_B.StopBits = p.Scan_Stop_Bits;
-            this.spBar_B.Parity = p.Scan_Parity;
+            this.spBar_C.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
+            this.spBar_C.DataBits = Convert.ToInt32(p.Scan_Data_Bits);
+            this.spBar_C.StopBits = p.Scan_Stop_Bits;
+            this.spBar_C.Parity = p.Scan_Parity;
             //
             comboBarD.Text = p.Scan_D_Port;
             this.spBar_D.BaudRate = Convert.ToInt32(p.Scan_Baud_Rate);
@@ -305,10 +305,10 @@ namespace BarcodeScan
                         TestCloseScanner(spBar_B, "B", "PC->BarB:");
                         break;
                     case "C":
-                        TestCloseScanner(spBar_C, "B", "PC->BarC:");
+                        TestCloseScanner(spBar_C, "C", "PC->BarC:");
                         break;
                     case "D":
-                        TestCloseScanner(spBar_D, "A", "PC->BarD:");
+                        TestCloseScanner(spBar_D, "D", "PC->BarD:");
                         break;
                     default:
                         break;
@@ -1031,50 +1031,6 @@ namespace BarcodeScan
             }
         }
 
-        private void spBar_C_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            if (spBar_C.BytesToRead == 0)
-                return;
-            try
-            {
-                    string sReceive = spBar_C.ReadTo(Other.Chr(13));
-            spBar_C.DiscardInBuffer();
-            sReceive = sReceive.Trim();
-            this.Invoke((EventHandler)(delegate
-            {
-                updateMessage(lstMessage, "BarC->PC:" + sReceive);
-                saveLog(p.LogType.SysLog, "BarC->PC:" + sReceive);
-                updateMessage(lstMessage, "BarC:" + sReceive);
-                saveLog(p.LogType.SysLog, "BarC:" + sReceive);
-                updateMessage(lstBar, "BarC:" + sReceive);
-                p.BarC = sReceive.Trim().ToUpper();
-                txtBarC.Text = p.BarC;
-                saveLog(p.LogType.SNLog, "BarC:" + p.BarC);
-                //check A,B,C,D
-                if (_runing)
-                {
-                    if (CheckAllBarComplete())
-                    {
-                        sendData(spPLC, "B");
-                        updateMessage(lstMessage, "PC->PLC:B");
-                        saveLog(p.LogType.SysLog, "PC->PLC:B");
-
-                    }
-                    else
-                    {
-
-                    }
-                }
-
-            }));
-            }
-            catch (Exception)
-            {
-                
-              //  throw;
-            }
-        
-        }
 
         private void spBar_D_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -1284,6 +1240,51 @@ namespace BarcodeScan
         }
 
         #endregion
+
+        private void spBar_C_DataReceived_1(object sender, SerialDataReceivedEventArgs e)
+        {
+            if (spBar_C.BytesToRead == 0)
+                return;
+            try
+            {
+                string sReceive = spBar_C.ReadTo(Other.Chr(13));
+                spBar_C.DiscardInBuffer();
+                sReceive = sReceive.Trim();
+                this.Invoke((EventHandler)(delegate
+                {
+                    updateMessage(lstMessage, "BarC->PC:" + sReceive);
+                    saveLog(p.LogType.SysLog, "BarC->PC:" + sReceive);
+                    updateMessage(lstMessage, "BarC:" + sReceive);
+                    saveLog(p.LogType.SysLog, "BarC:" + sReceive);
+                    updateMessage(lstBar, "BarC:" + sReceive);
+                    p.BarC = sReceive.Trim().ToUpper();
+                    txtBarC.Text = p.BarC;
+                    saveLog(p.LogType.SNLog, "BarC:" + p.BarC);
+                    //check A,B,C,D
+                    if (_runing)
+                    {
+                        if (CheckAllBarComplete())
+                        {
+                            sendData(spPLC, "B");
+                            updateMessage(lstMessage, "PC->PLC:B");
+                            saveLog(p.LogType.SysLog, "PC->PLC:B");
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+
+                }));
+            }
+            catch (Exception)
+            {
+
+                //  throw;
+            }
+        
+        }
 
 
     }
